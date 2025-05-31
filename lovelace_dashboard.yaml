@@ -1,304 +1,304 @@
-# Grant Aerona3 Heat Pump Dashboard
-# Beautiful and comprehensive control interface
-
 title: Grant Aerona3 Heat Pump
 views:
-  - title: Overview
-    path: overview
-    icon: mdi:heat-pump
+  - title: Heating Controls
+    path: heating
+    icon: mdi:radiator
     cards:
-      # Main Status Card
-      - type: vertical-stack
-        cards:
-          # Header with system status
-          - type: custom:mushroom-title-card
-            title: Grant Aerona3 Heat Pump
-            subtitle: System Overview
-            
-          # Main system status
-          - type: horizontal-stack
-            cards:
-              # Operating Mode
-              - type: custom:mushroom-entity-card
-                entity: sensor.grant_aerona3_operating_mode
-                name: Operating Mode
-                icon: mdi:heat-pump
-                icon_color: >
-                  {% if states('sensor.grant_aerona3_operating_mode') == 'Heating' %}
-                    red
-                  {% elif states('sensor.grant_aerona3_operating_mode') == 'Cooling' %}
-                    blue
-                  {% else %}
-                    grey
-                  {% endif %}
-                tap_action:
-                  action: more-info
-                  
-              # Power Consumption
-              - type: custom:mushroom-entity-card
-                entity: sensor.grant_aerona3_power_consumption
-                name: Power
-                icon: mdi:lightning-bolt
-                icon_color: orange
-                tap_action:
-                  action: more-info
-                  
-              # COP
-              - type: custom:mushroom-entity-card
-                entity: sensor.grant_aerona3_cop
-                name: COP
-                icon: mdi:gauge
-                icon_color: green
-                tap_action:
-                  action: more-info
-
-      # Temperature Overview
-      - type: custom:mushroom-title-card
-        title: Temperature Overview
-        
       - type: horizontal-stack
         cards:
-          # Outdoor Temperature
-          - type: custom:mushroom-entity-card
-            entity: sensor.grant_aerona3_outdoor_air_temperature
-            name: Outdoor
-            icon: mdi:thermometer
-            icon_color: >
-              {% set temp = states('sensor.grant_aerona3_outdoor_air_temperature') | float %}
-              {% if temp < 0 %}
-                blue
-              {% elif temp < 10 %}
-                light-blue
-              {% elif temp < 20 %}
-                green
-              {% else %}
-                orange
-              {% endif %}
-            tap_action:
-              action: more-info
-              
-          # Flow Temperature
-          - type: custom:mushroom-entity-card
-            entity: sensor.grant_aerona3_outgoing_water_temperature
-            name: Flow Temp
-            icon: mdi:thermometer-chevron-up
-            icon_color: red
-            tap_action:
-              action: more-info
-              
-          # Return Temperature
-          - type: custom:mushroom-entity-card
-            entity: sensor.grant_aerona3_return_water_temperature
-            name: Return Temp
-            icon: mdi:thermometer-chevron-down
-            icon_color: blue
-            tap_action:
-              action: more-info
-
-      # System Status Indicators
-      - type: custom:mushroom-title-card
-        title: System Status
-        
-      - type: horizontal-stack
-        cards:
-          # Compressor Status
-          - type: custom:mushroom-entity-card
-            entity: binary_sensor.grant_aerona3_compressor_running
-            name: Compressor
-            icon: mdi:engine
-            icon_color: >
-              {% if is_state('binary_sensor.grant_aerona3_compressor_running', 'on') %}
-                green
-              {% else %}
-                grey
-              {% endif %}
-            tap_action:
-              action: more-info
-              
-          # Water Pump Status
-          - type: custom:mushroom-entity-card
-            entity: binary_sensor.grant_aerona3_water_pump_running
-            name: Water Pump
-            icon: mdi:pump
-            icon_color: >
-              {% if is_state('binary_sensor.grant_aerona3_water_pump_running', 'on') %}
-                blue
-              {% else %}
-                grey
-              {% endif %}
-            tap_action:
-              action: more-info
-              
-          # Fan Status
-          - type: custom:mushroom-entity-card
-            entity: binary_sensor.grant_aerona3_fan_running
-            name: Fan
-            icon: mdi:fan
-            icon_color: >
-              {% if is_state('binary_sensor.grant_aerona3_fan_running', 'on') %}
-                cyan
-              {% else %}
-                grey
-              {% endif %}
-            tap_action:
-              action: more-info
-
-      # Energy Flow Card
-      - type: custom:energy-flow-card-plus
-        entities:
-          grid:
-            entity: sensor.grant_aerona3_power_consumption
-            name: Heat Pump
-          home:
-            entity: sensor.grant_aerona3_energy_consumption
-            name: Total Energy
-        display_zero_lines: false
-        use_new_flow_rate_model: true
-        w_decimals: 0
-        kw_decimals: 1
-
-  - title: Zone Control
-    path: zones
-    icon: mdi:home-thermometer
-    cards:
-      # Zone 1 Control
-      - type: custom:mushroom-title-card
-        title: Zone 1 Control
-        
-      - type: vertical-stack
-        cards:
-          # Zone 1 Climate Control
-          - type: thermostat
+          - type: custom:mushroom-climate-card
             entity: climate.grant_aerona3_zone_1
-            name: Zone 1 Climate
-            
-          # Zone 1 Settings
-          - type: horizontal-stack
-            cards:
-              # Fixed Flow Temperature
-              - type: custom:mushroom-number-card
-                entity: number.grant_aerona3_zone_1_fixed_flow_temperature
-                name: Fixed Flow Temp
-                icon: mdi:thermometer-lines
-                
-              # Weather Compensation
-              - type: custom:mushroom-entity-card
-                entity: switch.grant_aerona3_zone_1_weather_compensation
-                name: Weather Comp
+            name: Zone 1
+            icon: mdi:home-thermometer-outline
+            hvac_modes:
+              - heat
+              - cool
+              - 'off'
+            show_temperature_control: true
+            collapsible_controls: false
+          - type: custom:mushroom-climate-card
+            entity: climate.grant_aerona3_zone_2
+            name: Zone 2
+            icon: mdi:home-thermometer
+            hvac_modes:
+              - heat
+              - cool
+              - 'off'
+            show_temperature_control: true
+            collapsible_controls: false
+      - type: horizontal-stack
+        cards:
+          - type: entities
+            title: Zone 1 Control Mode
+            entities:
+              - entity: switch.grant_aerona3_zone_1_weather_compensation
+                name: Weather Compensation
                 icon: mdi:weather-partly-cloudy
-                icon_color: >
-                  {% if is_state('switch.grant_aerona3_zone_1_weather_compensation', 'on') %}
-                    green
-                  {% else %}
-                    grey
-                  {% endif %}
-                tap_action:
-                  action: toggle
-
-      # Zone 2 Control
-      - type: custom:mushroom-title-card
-        title: Zone 2 Control
-        
+      - type: entities
+        title: System Settings
+        entities:
+          - entity: number.grant_aerona3_water_setpoint_hysteresis
+            name: Water Setpoint Hysteresis
+            icon: mdi:thermometer-lines
+      - type: conditional
+        conditions:
+          - entity: switch.grant_aerona3_zone_1_weather_compensation
+            state: 'off'
+        card:
+          type: entities
+          title: Zone 1 - Fixed Flow Temperature
+          entities:
+            - entity: number.grant_aerona3_zone_1_fixed_flow_temperature
+              name: Fixed Flow Temperature
+              icon: mdi:thermometer
+      - type: conditional
+        conditions:
+          - entity: switch.grant_aerona3_zone_1_weather_compensation
+            state: 'on'
+        card:
+          type: entities
+          title: Zone 1 - Weather Compensation Settings
+          entities:
+            - entity: number.grant_aerona3_zone_1_max_flow_temperature
+              name: Max Flow Temperature
+              icon: mdi:thermometer-high
+            - entity: number.grant_aerona3_zone_1_min_flow_temperature
+              name: Min Flow Temperature
+              icon: mdi:thermometer-low
+            - entity: number.grant_aerona3_zone_1_max_outdoor_temperature
+              name: Max Outdoor Temperature
+              icon: mdi:weather-sunny
+            - entity: number.grant_aerona3_zone_1_min_outdoor_temperature
+              name: Min Outdoor Temperature
+              icon: mdi:snowflake
+      - type: conditional
+        conditions:
+          - entity: switch.grant_aerona3_zone_2_weather_compensation
+            state: 'off'
+        card:
+          type: entities
+          title: Zone 2 - Fixed Flow Temperature
+          entities:
+            - entity: number.grant_aerona3_zone_2_fixed_flow_temperature
+              name: Fixed Flow Temperature
+              icon: mdi:thermometer
+      - type: conditional
+        conditions:
+          - entity: switch.grant_aerona3_zone_2_weather_compensation
+            state: 'on'
+        card:
+          type: entities
+          title: Zone 2 - Weather Compensation Settings
+          entities:
+            - entity: number.grant_aerona3_zone_2_max_flow_temperature
+              name: Max Flow Temperature
+              icon: mdi:thermometer-high
+            - entity: number.grant_aerona3_zone_2_min_flow_temperature
+              name: Min Flow Temperature
+              icon: mdi:thermometer-low
+            - entity: number.grant_aerona3_zone_2_max_outdoor_temperature
+              name: Max Outdoor Temperature
+              icon: mdi:weather-sunny
+            - entity: number.grant_aerona3_zone_2_min_outdoor_temperature
+              name: Min Outdoor Temperature
+              icon: mdi:snowflake
+  - title: DHW Controls
+    path: dhw
+    icon: mdi:water-thermometer
+    cards:
+      - type: custom:mushroom-climate-card
+        entity: climate.grant_aerona3_dhw
+        name: Domestic Hot Water
+        icon: mdi:water-thermometer
+        hvac_modes:
+          - heat
+          - 'off'
+        show_temperature_control: true
+        collapsible_controls: false
       - type: vertical-stack
         cards:
-          # Zone 2 Climate Control
-          - type: thermostat
-            entity: climate.grant_aerona3_zone_2
-            name: Zone 2 Climate
-            
-          # Zone 2 Settings
-          - type: horizontal-stack
-            cards:
-              # Fixed Flow Temperature
-              - type: custom:mushroom-number-card
-                entity: number.grant_aerona3_zone_2_fixed_flow_temperature
-                name: Fixed Flow Temp
+          - type: entities
+            title: DHW Status
+            entities:
+              - entity: sensor.grant_aerona3_dhw_tank_temperature
+                name: Current DHW Temperature
+                icon: mdi:thermometer-water
+              - entity: sensor.grant_aerona3_dhw_operating_mode
+                name: DHW Operating Mode
+                icon: mdi:water-outline
+              - entity: sensor.grant_aerona3_buffer_tank_temperature
+                name: Buffer Tank Temperature
+                icon: mdi:storage-tank
+          - type: entities
+            title: DHW Control
+            entities:
+              - entity: switch.grant_aerona3_anti_legionella_function
+                name: Anti-Legionella Function
+                icon: mdi:bacteria
+              - entity: sensor.grant_aerona3_day_of_week
+                name: Legionella Cycle Day
+                icon: mdi:calendar
+              - entity: sensor.grant_aerona3_clock
+                name: Legionella Cycle Time
+                icon: mdi:clock
+          - type: entities
+            title: DHW Temperature Settings
+            entities:
+              - entity: number.grant_aerona3_dhw_comfort_temperature
+                name: Comfort Temperature
+                icon: mdi:thermometer-plus
+              - entity: number.grant_aerona3_dhw_economy_temperature
+                name: Economy Temperature
+                icon: mdi:thermometer-minus
+              - entity: number.grant_aerona3_dhw_boost_temperature
+                name: Boost Temperature
+                icon: mdi:thermometer-chevron-up
+              - entity: number.grant_aerona3_dhw_setpoint_hysteresis
+                name: DHW Hysteresis
                 icon: mdi:thermometer-lines
-                
-              # Weather Compensation
-              - type: custom:mushroom-entity-card
-                entity: switch.grant_aerona3_zone_2_weather_compensation
-                name: Weather Comp
-                icon: mdi:weather-partly-cloudy
-                icon_color: >
-                  {% if is_state('switch.grant_aerona3_zone_2_weather_compensation', 'on') %}
-                    green
-                  {% else %}
-                    grey
-                  {% endif %}
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: Quick DHW Actions
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    name: Comfort
+                    icon: mdi:home-thermometer
+                    color: green
+                    tap_action:
+                      action: call-service
+                      service: number.set_value
+                      target:
+                        entity_id: number.grant_aerona3_dhw_comfort_temperature
+                      data:
+                        value: 55
+                    styles:
+                      card:
+                        - height: 50px
+                        - font-size: 12px
+                  - type: custom:button-card
+                    name: Economy
+                    icon: mdi:leaf
+                    color: blue
+                    tap_action:
+                      action: call-service
+                      service: number.set_value
+                      target:
+                        entity_id: number.grant_aerona3_dhw_economy_temperature
+                      data:
+                        value: 45
+                    styles:
+                      card:
+                        - height: 50px
+                        - font-size: 12px
+              - type: custom:button-card
+                name: Boost Mode
+                icon: mdi:rocket-launch
+                color: red
                 tap_action:
-                  action: toggle
-
+                  action: call-service
+                  service: number.set_value
+                  target:
+                    entity_id: number.grant_aerona3_dhw_boost_temperature
+                  data:
+                    value: 65
+                styles:
+                  card:
+                    - height: 50px
+                    - font-size: 12px
   - title: Performance
     path: performance
     icon: mdi:chart-line
     cards:
-      # Performance Charts
-      - type: custom:mushroom-title-card
-        title: Performance Monitoring
-        
-      # Temperature Chart
-      - type: custom:apexcharts-card
-        header:
-          show: true
-          title: Temperature Trends
-          show_states: true
-          colorize_states: true
-        graph_span: 24h
-        series:
-          - entity: sensor.grant_aerona3_outdoor_air_temperature
-            name: Outdoor
-            color: blue
-            stroke_width: 2
-          - entity: sensor.grant_aerona3_outgoing_water_temperature
-            name: Flow
-            color: red
-            stroke_width: 2
-          - entity: sensor.grant_aerona3_return_water_temperature
-            name: Return
-            color: orange
-            stroke_width: 2
-        yaxis:
-          - min: -10
-            max: 60
-            decimals: 1
-            
-      # Power and COP Chart
-      - type: custom:apexcharts-card
-        header:
-          show: true
-          title: Power & Efficiency
-          show_states: true
-          colorize_states: true
-        graph_span: 24h
-        series:
-          - entity: sensor.grant_aerona3_power_consumption
-            name: Power (W)
-            color: orange
-            stroke_width: 2
-            yaxis_id: power
-          - entity: sensor.grant_aerona3_cop
+      - type: energy-date-selection
+      - type: horizontal-stack
+        cards:
+          - type: gauge
+            entity: sensor.grant_aerona3_power_consumption
+            min: 0
+            max: 5000
+            needle: true
+            name: Power Consumption
+            severity:
+              green: 0
+              yellow: 1000
+              red: 3000
+          - type: gauge
+            entity: sensor.grant_aerona3_cop
+            min: 0
+            max: 8
+            needle: true
             name: COP
-            color: green
-            stroke_width: 2
-            yaxis_id: cop
-        yaxis:
-          - id: power
-            min: 0
-            decimals: 0
-            apex_config:
-              title:
-                text: Power (W)
-          - id: cop
-            opposite: true
-            min: 0
-            max: 6
-            decimals: 1
-            apex_config:
-              title:
-                text: COP
-                
-      # Compressor Performance
+            severity:
+              green: 3.5
+              yellow: 2
+              red: 0
+          - type: entities
+            title: Flow Rate Settings
+            entities:
+              - entity: input_number.heat_pump_flow_rate
+                name: Manual Flow Rate (L/min)
+                icon: mdi:water-pump
+      - type: horizontal-stack
+        cards:
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: Temperature Trends
+              show_states: true
+              colorize_states: true
+            graph_span: 24h
+            series:
+              - entity: sensor.grant_aerona3_outdoor_air_temperature
+                name: Outdoor
+                color: blue
+                stroke_width: 2
+              - entity: sensor.grant_aerona3_outgoing_water_temperature
+                name: Flow
+                color: red
+                stroke_width: 2
+              - entity: sensor.grant_aerona3_return_water_temperature
+                name: Return
+                color: orange
+                stroke_width: 2
+            yaxis:
+              - min: -10
+                max: 60
+                decimals: 1
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: Power & Efficiency
+              show_states: true
+              colorize_states: true
+            graph_span: 24h
+            series:
+              - entity: sensor.grant_aerona3_power_consumption
+                name: Power (W)
+                color: orange
+                stroke_width: 2
+                yaxis_id: power
+              - entity: sensor.grant_aerona3_cop
+                name: COP
+                color: green
+                stroke_width: 2
+                yaxis_id: cop
+            yaxis:
+              - id: power
+                min: 0
+                decimals: 0
+                apex_config:
+                  title:
+                    text: Power (W)
+              - id: cop
+                opposite: true
+                min: 0
+                max: 6
+                decimals: 1
+                apex_config:
+                  title:
+                    text: COP
       - type: custom:apexcharts-card
         header:
           show: true
@@ -318,180 +318,186 @@ views:
         yaxis:
           - min: 0
             decimals: 1
-
+      - type: horizontal-stack
+        cards:
+          - type: entities
+            title: Energy Consumption
+            entities:
+              - entity: sensor.grant_aerona3_energy_consumption
+                name: Total Energy
+                icon: mdi:counter
+              - entity: sensor.daily_energy
+                name: Daily Energy
+                icon: mdi:calendar-today
+              - entity: sensor.weekly_energy
+                name: Weekly Energy
+                icon: mdi:calendar-week
+              - entity: sensor.monthly_energy
+                name: Monthly Energy
+                icon: mdi:calendar-month
+          - type: entities
+            title: COP Information
+            entities:
+              - entity: sensor.grant_aerona3_cop
+                name: Current COP
+                icon: mdi:gauge
+              - name: Enhanced COP Calculation
+                type: custom:mushroom-template-card
+                primary: Enhanced COP
+                secondary: >-
+                  {% set power =
+                  states('sensor.grant_aerona3_power_consumption')|float(0) %}
+                  {% set flow_temp =
+                  states('sensor.grant_aerona3_outgoing_water_temperature')|float(0)
+                  %} {% set return_temp =
+                  states('sensor.grant_aerona3_return_water_temperature')|float(0)
+                  %} {% set flow_rate =
+                  states('input_number.heat_pump_flow_rate')|float(28) %} {% set
+                  delta_t = flow_temp - return_temp %} {% if power > 100 and
+                  delta_t > 0 %}
+                    {% set heat_output = 4.2 * flow_rate * delta_t / 60 %}
+                    {% set cop = heat_output / (power / 1000) %}
+                    {{ cop | round(2) }}
+                  {% else %}
+                    Not operating
+                  {% endif %}
+                icon: mdi:calculator
+                icon_color: green
   - title: System Settings
     path: settings
     icon: mdi:cog
     cards:
-      # System Control
-      - type: custom:mushroom-title-card
-        title: System Control
-        
-      # Main System Switches
-      - type: vertical-stack
+      - type: horizontal-stack
         cards:
-          - type: horizontal-stack
-            cards:
-              # Anti-Legionella
-              - type: custom:mushroom-entity-card
-                entity: switch.grant_aerona3_anti_legionella_function
-                name: Anti-Legionella
-                icon: mdi:bacteria
-                icon_color: >
-                  {% if is_state('switch.grant_aerona3_anti_legionella_function', 'on') %}
-                    green
-                  {% else %}
-                    grey
-                  {% endif %}
-                tap_action:
-                  action: toggle
-                  
-              # Control Mode
-              - type: custom:mushroom-entity-card
-                entity: switch.grant_aerona3_control_mode
+          - type: entities
+            title: Frost Protection
+            entities:
+              - entity: switch.grant_aerona3_frost_protection_room
+                name: Room Temperature Protection
+                icon: mdi:snowflake
+              - entity: switch.grant_aerona3_frost_protection_outdoor
+                name: Outdoor Temperature Protection
+                icon: mdi:snowflake-variant
+              - entity: switch.grant_aerona3_dhw_storage_frost_protection
+                name: DHW Storage Protection
+                icon: mdi:storage-tank
+          - type: entities
+            title: System Control
+            entities:
+              - entity: switch.grant_aerona3_control_mode
                 name: Control Mode
                 icon: mdi:tune
-                icon_color: >
-                  {% if is_state('switch.grant_aerona3_control_mode', 'on') %}
-                    blue
-                  {% else %}
-                    grey
-                  {% endif %}
-                tap_action:
-                  action: toggle
-                  
-          - type: horizontal-stack
-            cards:
-              # Frost Protection Room
-              - type: custom:mushroom-entity-card
-                entity: switch.grant_aerona3_frost_protection_room
-                name: Frost Prot. Room
-                icon: mdi:snowflake
-                icon_color: >
-                  {% if is_state('switch.grant_aerona3_frost_protection_room', 'on') %}
-                    light-blue
-                  {% else %}
-                    grey
-                  {% endif %}
-                tap_action:
-                  action: toggle
-                  
-              # Frost Protection Outdoor
-              - type: custom:mushroom-entity-card
-                entity: switch.grant_aerona3_frost_protection_outdoor
-                name: Frost Prot. Outdoor
-                icon: mdi:snowflake-variant
-                icon_color: >
-                  {% if is_state('switch.grant_aerona3_frost_protection_outdoor', 'on') %}
-                    light-blue
-                  {% else %}
-                    grey
-                  {% endif %}
-                tap_action:
-                  action: toggle
-
-      # Temperature Setpoints
-      - type: custom:mushroom-title-card
-        title: Temperature Setpoints
-        
-      - type: vertical-stack
-        cards:
-          # Zone 1 Setpoints
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-number-card
-                entity: number.grant_aerona3_zone_1_max_flow_temperature
-                name: Zone 1 Max
-                icon: mdi:thermometer-high
-                
-              - type: custom:mushroom-number-card
-                entity: number.grant_aerona3_zone_1_min_flow_temperature
-                name: Zone 1 Min
-                icon: mdi:thermometer-low
-                
-          # Zone 2 Setpoints
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-number-card
-                entity: number.grant_aerona3_zone_2_max_flow_temperature
-                name: Zone 2 Max
-                icon: mdi:thermometer-high
-                
-              - type: custom:mushroom-number-card
-                entity: number.grant_aerona3_zone_2_min_flow_temperature
-                name: Zone 2 Min
-                icon: mdi:thermometer-low
-
+              - entity: switch.grant_aerona3_the_hp_unit_turns_on_off
+                name: Heat Pump Power Control
+                icon: mdi:power
+      - type: entities
+        title: PCB Terminal Controls
+        entities:
+          - entity: switch.grant_aerona3_terminal_1_2_3_remote_controller
+            name: 1-2-3 Remote Controller
+            icon: mdi:remote
+          - entity: switch.grant_aerona3_terminal_7_8_dhw_tank_temperature_probe
+            name: 7-8 DHW Tank Temperature Probe
+            icon: mdi:thermometer-probe
+          - entity: switch.grant_aerona3_terminal_9_10_outdoor_air_temperature_probe
+            name: 9-10 Outdoor Air Temperature Probe
+            icon: mdi:thermometer-probe
+          - entity: switch.grant_aerona3_terminal_11_12_buffer_tank_temperature_probe
+            name: 11-12 Buffer Tank Temperature Probe
+            icon: mdi:thermometer-probe
+          - entity: switch.grant_aerona3_terminal_15_16_32_rs485_mod_bus
+            name: 15-16-32 RS485 Modbus
+            icon: mdi:cable-data
+          - entity: switch.grant_aerona3_terminal_19_18_dhw_remote_contact
+            name: 18-19 DHW Remote Contact
+            icon: mdi:electric-switch
+          - entity: switch.grant_aerona3_terminal_22_23_dual_set_point_control
+            name: 21-22 Dual Set Point Control
+            icon: mdi:tune-variant
+          - entity: switch.grant_aerona3_terminal_28_29_night_mode
+            name: 28-29 Night Mode
+            icon: mdi:weather-night
   - title: Diagnostics
     path: diagnostics
     icon: mdi:wrench
     cards:
-      # Diagnostic Information
-      - type: custom:mushroom-title-card
-        title: System Diagnostics
-        
-      # System Information
-      - type: entities
-        title: System Information
-        entities:
-          - entity: sensor.grant_aerona3_operating_mode
-            name: Operating Mode
-          - entity: sensor.grant_aerona3_dhw_operating_mode
-            name: DHW Mode
-          - entity: sensor.grant_aerona3_day_of_week
-            name: Day of Week
-          - entity: sensor.grant_aerona3_clock
-            name: System Clock
-            
-      # Temperature Sensors
-      - type: entities
-        title: Temperature Sensors
-        entities:
-          - entity: sensor.grant_aerona3_outdoor_air_temperature
-            name: Outdoor Air
-          - entity: sensor.grant_aerona3_outgoing_water_temperature
-            name: Outgoing Water
-          - entity: sensor.grant_aerona3_return_water_temperature
-            name: Return Water
-          - entity: sensor.grant_aerona3_discharge_temperature
-            name: Discharge
-          - entity: sensor.grant_aerona3_suction_temperature
-            name: Suction
-          - entity: sensor.grant_aerona3_defrost_temperature
-            name: Defrost
-          - entity: sensor.grant_aerona3_dhw_tank_temperature
-            name: DHW Tank
-          - entity: sensor.grant_aerona3_buffer_tank_temperature
-            name: Buffer Tank
-            
-      # Performance Metrics
-      - type: entities
-        title: Performance Metrics
-        entities:
-          - entity: sensor.grant_aerona3_compressor_frequency
-            name: Compressor Frequency
-          - entity: sensor.grant_aerona3_fan_speed
-            name: Fan Speed
-          - entity: sensor.grant_aerona3_water_pump_speed
-            name: Water Pump Speed
-          - entity: sensor.grant_aerona3_current_power_consumption
-            name: Power Consumption
-          - entity: sensor.grant_aerona3_energy_consumption
-            name: Total Energy
-          - entity: sensor.grant_aerona3_cop
-            name: COP
-            
-      # Zone Settings
-      - type: entities
-        title: Zone Settings
-        entities:
-          - entity: sensor.grant_aerona3_zone_1_set_temperature
-            name: Zone 1 Set Temperature
-          - entity: sensor.grant_aerona3_zone_2_set_temperature
-            name: Zone 2 Set Temperature
-
-# Required HACS Frontend Components:
-# - mushroom
-# - apexcharts-card
-# - energy-flow-card-plus
-# - card-mod (for styling)
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: System Information
+            entities:
+              - entity: sensor.grant_aerona3_operating_mode
+                name: Operating Mode
+              - entity: sensor.grant_aerona3_dhw_operating_mode
+                name: DHW Mode
+              - entity: sensor.grant_aerona3_day_of_week
+                name: Day for Legionella Cycle
+              - entity: sensor.grant_aerona3_clock
+                name: Legionella Cycle Start Time
+          - type: entities
+            title: Performance Metrics
+            entities:
+              - entity: sensor.grant_aerona3_compressor_frequency
+                name: Compressor Frequency
+              - entity: sensor.grant_aerona3_fan_speed
+                name: Fan Speed
+              - entity: sensor.grant_aerona3_water_pump_speed
+                name: Water Pump Speed
+              - entity: sensor.grant_aerona3_current_power_consumption
+                name: Power Consumption
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Temperature Sensors
+            entities:
+              - entity: sensor.grant_aerona3_outdoor_air_temperature
+                name: Outdoor Air
+              - entity: sensor.grant_aerona3_outgoing_water_temperature
+                name: Outgoing Water
+              - entity: sensor.grant_aerona3_return_water_temperature
+                name: Return Water
+              - entity: sensor.grant_aerona3_discharge_temperature
+                name: Discharge
+              - entity: sensor.grant_aerona3_suction_temperature
+                name: Suction
+              - entity: sensor.grant_aerona3_defrost_temperature
+                name: Defrost
+          - type: entities
+            title: Tank Temperatures
+            entities:
+              - entity: sensor.grant_aerona3_dhw_tank_temperature
+                name: DHW Tank
+              - entity: sensor.grant_aerona3_buffer_tank_temperature
+                name: Buffer Tank
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: System Status
+            entities:
+              - entity: binary_sensor.grant_aerona3_compressor_running
+                name: Compressor Running
+              - entity: binary_sensor.grant_aerona3_water_pump_running
+                name: Water Pump Running
+              - entity: binary_sensor.grant_aerona3_fan_running
+                name: Fan Running
+              - entity: binary_sensor.grant_aerona3_heating_active
+                name: Heating Active
+              - entity: binary_sensor.grant_aerona3_cooling_active
+                name: Cooling Active
+              - entity: binary_sensor.grant_aerona3_dhw_active
+                name: DHW Active
+          - type: entities
+            title: All Number Controls
+            entities:
+              - entity: number.grant_aerona3_zone_1_fixed_flow_temperature
+                name: Zone 1 Fixed Flow
+              - entity: number.grant_aerona3_zone_2_fixed_flow_temperature
+                name: Zone 2 Fixed Flow
+              - entity: number.grant_aerona3_zone_1_max_flow_temperature
+                name: Zone 1 Max Flow
+              - entity: number.grant_aerona3_zone_1_min_flow_temperature
+                name: Zone 1 Min Flow
+              - entity: number.grant_aerona3_zone_2_max_flow_temperature
+                name: Zone 2 Max Flow
+              - entity: number.grant_aerona3_zone_2_min_flow_temperature
+                name: Zone 2 Min Flow
