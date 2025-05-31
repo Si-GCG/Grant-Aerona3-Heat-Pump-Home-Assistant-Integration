@@ -35,24 +35,24 @@ INPUT_REGISTER_MAP = {
     8: {"name": "Suction Temperature", "unit": "°C", "scale": 1.0, "device_class": "temperature"},
     9: {"name": "Outgoing Water Temperature", "unit": "°C", "scale": 1.0, "device_class": "temperature"},
     10: {"name": "Operating Mode", "unit": None, "scale": 1.0, "device_class": None},
-    11: {"name": "Zone 1 Set Temperature", "unit": "°C", "scale": 0.5, "device_class": "temperature"},
-    12: {"name": "Zone 2 Set Temperature", "unit": "°C", "scale": 0.5, "device_class": "temperature"},
+    11: {"name": "Zone 1 Set Temperature", "unit": "°C", "scale": 0.1, "device_class": "temperature"},
+    12: {"name": "Zone 2 Set Temperature", "unit": "°C", "scale": 0.1, "device_class": "temperature"},
     13: {"name": "DHW Operating Mode", "unit": None, "scale": 1.0, "device_class": None},
     14: {"name": "Day of Week", "unit": None, "scale": 1.0, "device_class": None},
     15: {"name": "Clock", "unit": None, "scale": 1.0, "device_class": None},
-    16: {"name": "DHW Tank Temperature", "unit": "°C", "scale": 0.5, "device_class": "temperature"},
-    17: {"name": "External Outdoor Temperature", "unit": "°C", "scale": 0.5, "device_class": "temperature"},
-    18: {"name": "Buffer Tank Temperature", "unit": "°C", "scale": 0.5, "device_class": "temperature"},
+    16: {"name": "DHW Tank Temperature", "unit": "°C", "scale": 0.1, "device_class": "temperature"},
+    17: {"name": "External Outdoor Temperature", "unit": "°C", "scale": 0.1, "device_class": "temperature"},
+    18: {"name": "Buffer Tank Temperature", "unit": "°C", "scale": 0.1, "device_class": "temperature"},
 }
 
 # Holding register addresses for temperature setpoints
 HOLDING_REGISTER_MAP = {
-    2: {"name": "Zone 1 Fixed Flow Temperature", "unit": "°C", "scale": 0.5, "min": 23, "max": 60},
-    3: {"name": "Zone 1 Max Flow Temperature", "unit": "°C", "scale": 0.5, "min": 23, "max": 60},
-    4: {"name": "Zone 1 Min Flow Temperature", "unit": "°C", "scale": 0.5, "min": 23, "max": 60},
-    7: {"name": "Zone 2 Fixed Flow Temperature", "unit": "°C", "scale": 0.5, "min": 23, "max": 60},
-    8: {"name": "Zone 2 Max Flow Temperature", "unit": "°C", "scale": 0.5, "min": 23, "max": 60},
-    9: {"name": "Zone 2 Min Flow Temperature", "unit": "°C", "scale": 0.5, "min": 23, "max": 60},
+    2: {"name": "Zone 1 Fixed Flow Temperature", "unit": "°C", "scale": 0.1, "min": 23, "max": 60},
+    3: {"name": "Zone 1 Max Flow Temperature", "unit": "°C", "scale": 0.1, "min": 23, "max": 60},
+    4: {"name": "Zone 1 Min Flow Temperature", "unit": "°C", "scale": 0.1, "min": 23, "max": 60},
+    7: {"name": "Zone 2 Fixed Flow Temperature", "unit": "°C", "scale": 0.1, "min": 23, "max": 60},
+    8: {"name": "Zone 2 Max Flow Temperature", "unit": "°C", "scale": 0.1, "min": 23, "max": 60},
+    9: {"name": "Zone 2 Min Flow Temperature", "unit": "°C", "scale": 0.1, "min": 23, "max": 60},
 }
 
 # Coil register addresses for switches
