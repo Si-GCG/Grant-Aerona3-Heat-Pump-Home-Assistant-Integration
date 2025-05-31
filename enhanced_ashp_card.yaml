@@ -1,0 +1,290 @@
+# Enhanced Grant Aerona3 Heat Pump Card
+# Based on your original design with modern improvements
+
+type: vertical-stack
+cards:
+  # Header Card with System Status
+  - type: custom:mushroom-title-card
+    title: Grant Aerona3 Heat Pump
+    subtitle: >
+      {% set mode = states('sensor.grant_aerona3_operating_mode') %}
+      {% set power = states('sensor.grant_aerona3_power_consumption') | float %}
+      {% if mode == 'Heating' %}
+        🔥 Heating - {{ power }}W
+      {% elif mode == 'Cooling' %}
+        ❄️ Cooling - {{ power }}W
+      {% else %}
+        ⏸️ Standby - {{ power }}W
+      {% endif %}
+
+  # Main Control Panel
+  - type: horizontal-stack
+    cards:
+      # Zone 1 Climate Control
+      - type: custom:mushroom-climate-card
+        entity: climate.grant_aerona3_zone_1
+        name: Zone 1
+        icon: mdi:home-thermometer-outline
+        hvac_modes:
+          - heat
+          - cool
+          - 'off'
+        show_temperature_control: true
+        collapsible_controls: false
+        
+      # Zone 2 Climate Control  
+      - type: custom:mushroom-climate-card
+        entity: climate.grant_aerona3_zone_2
+        name: Zone 2
+        icon: mdi:home-thermometer
+        hvac_modes:
+          - heat
+          - cool
+          - 'off'
+        show_temperature_control: true
+        collapsible_controls: false
+
+  # Temperature Display Row
+  - type: horizontal-stack
+    cards:
+      # Outdoor Temperature
+      - type: custom:mushroom-entity-card
+        entity: sensor.grant_aerona3_outdoor_air_temperature
+        name: Outdoor
+        icon: mdi:thermometer
+        icon_color: >
+          {% set temp = states('sensor.grant_aerona3_outdoor_air_temperature') | float %}
+          {% if temp < 0 %}
+            blue
+          {% elif temp < 10 %}
+            light-blue
+          {% elif temp < 20 %}
+            green
+          {% else %}
+            orange
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(var(--rgb-primary-color), 0.05);
+            }
+            
+      # Flow Temperature
+      - type: custom:mushroom-entity-card
+        entity: sensor.grant_aerona3_outgoing_water_temperature
+        name: Flow
+        icon: mdi:thermometer-chevron-up
+        icon_color: red
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(244, 67, 54, 0.05);
+            }
+            
+      # Return Temperature
+      - type: custom:mushroom-entity-card
+        entity: sensor.grant_aerona3_return_water_temperature
+        name: Return
+        icon: mdi:thermometer-chevron-down
+        icon_color: blue
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(33, 150, 243, 0.05);
+            }
+
+  # System Status Row
+  - type: horizontal-stack
+    cards:
+      # Power Consumption
+      - type: custom:mushroom-entity-card
+        entity: sensor.grant_aerona3_power_consumption
+        name: Power
+        icon: mdi:lightning-bolt
+        icon_color: orange
+        secondary_info: >
+          {% set energy = states('sensor.grant_aerona3_energy_consumption') %}
+          Total: {{ energy }} kWh
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(255, 152, 0, 0.05);
+            }
+            
+      # COP Display
+      - type: custom:mushroom-entity-card
+        entity: sensor.grant_aerona3_cop
+        name: COP
+        icon: mdi:gauge
+        icon_color: >
+          {% set cop = states('sensor.grant_aerona3_cop') | float %}
+          {% if cop > 4 %}
+            green
+          {% elif cop > 3 %}
+            light-green
+          {% elif cop > 2 %}
+            orange
+          {% else %}
+            red
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(76, 175, 80, 0.05);
+            }
+            
+      # Compressor Status
+      - type: custom:mushroom-entity-card
+        entity: binary_sensor.grant_aerona3_compressor_running
+        name: Compressor
+        icon: mdi:engine
+        icon_color: >
+          {% if is_state('binary_sensor.grant_aerona3_compressor_running', 'on') %}
+            green
+          {% else %}
+            grey
+          {% endif %}
+        secondary_info: >
+          {% if is_state('binary_sensor.grant_aerona3_compressor_running', 'on') %}
+            {{ states('sensor.grant_aerona3_compressor_frequency') }} Hz
+          {% else %}
+            Stopped
+          {% endif %}
+
+  # Quick Controls Row
+  - type: horizontal-stack
+    cards:
+      # Weather Compensation Zone 1
+      - type: custom:mushroom-entity-card
+        entity: switch.grant_aerona3_zone_1_weather_compensation
+        name: WC Zone 1
+        icon: mdi:weather-partly-cloudy
+        icon_color: >
+          {% if is_state('switch.grant_aerona3_zone_1_weather_compensation', 'on') %}
+            green
+          {% else %}
+            grey
+          {% endif %}
+        tap_action:
+          action: toggle
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(var(--rgb-success-color), 0.05);
+            }
+            
+      # Weather Compensation Zone 2
+      - type: custom:mushroom-entity-card
+        entity: switch.grant_aerona3_zone_2_weather_compensation
+        name: WC Zone 2
+        icon: mdi:weather-partly-cloudy
+        icon_color: >
+          {% if is_state('switch.grant_aerona3_zone_2_weather_compensation', 'on') %}
+            green
+          {% else %}
+            grey
+          {% endif %}
+        tap_action:
+          action: toggle
+        card_mod:
+          style: |
+            ha-card {
+              background: rgba(var(--rgb-success-color), 0.05);
+            }
+            
+      # Anti-Legionella
+      - type: custom:mushroom-entity-card
+        entity: switch.grant_aerona3_anti_legionella_function
+        name: Anti-Leg
+        icon: mdi:bacteria
+        icon_color: >
+          {% if is_state('switch.grant_aerona3_anti_legionella_function', 'on') %}
+            green
+          {% else %}
+            grey
+          {% endif %}
+        tap_action:
+          action: toggle
+
+  # Temperature Setpoints (Collapsible)
+  - type: conditional
+    conditions:
+      - entity: input_boolean.show_ashp_setpoints
+        state: 'on'
+    card:
+      type: vertical-stack
+      cards:
+        - type: custom:mushroom-title-card
+          title: Temperature Setpoints
+          
+        - type: horizontal-stack
+          cards:
+            # Zone 1 Fixed Flow Temperature
+            - type: custom:mushroom-number-card
+              entity: number.grant_aerona3_zone_1_fixed_flow_temperature
+              name: Zone 1 Flow
+              icon: mdi:thermometer-lines
+              display_mode: buttons
+              
+            # Zone 2 Fixed Flow Temperature
+            - type: custom:mushroom-number-card
+              entity: number.grant_aerona3_zone_2_fixed_flow_temperature
+              name: Zone 2 Flow
+              icon: mdi:thermometer-lines
+              display_mode: buttons
+
+  # Toggle for Setpoints
+  - type: custom:mushroom-entity-card
+    entity: input_boolean.show_ashp_setpoints
+    name: Show Setpoints
+    icon: mdi:tune
+    icon_color: >
+      {% if is_state('input_boolean.show_ashp_setpoints', 'on') %}
+        blue
+      {% else %}
+        grey
+      {% endif %}
+    tap_action:
+      action: toggle
+
+  # Mini Performance Chart
+  - type: custom:mini-graph-card
+    entities:
+      - entity: sensor.grant_aerona3_outdoor_air_temperature
+        name: Outdoor
+        color: '#03A9F4'
+      - entity: sensor.grant_aerona3_outgoing_water_temperature
+        name: Flow
+        color: '#F44336'
+      - entity: sensor.grant_aerona3_return_water_temperature
+        name: Return
+        color: '#FF9800'
+    hours_to_show: 24
+    points_per_hour: 2
+    line_width: 2
+    font_size: 75
+    animate: true
+    show:
+      name: false
+      icon: false
+      state: false
+      legend: true
+      fill: fade
+    card_mod:
+      style: |
+        ha-card {
+          background: rgba(var(--rgb-primary-color), 0.02);
+          border: 1px solid rgba(var(--rgb-primary-color), 0.1);
+        }
+
+# Required Helper Entity (add to configuration.yaml):
+# input_boolean:
+#   show_ashp_setpoints:
+#     name: Show ASHP Setpoints
+#     initial: false
+#     icon: mdi:tune
+
+# Required HACS Components:
+# - mushroom
+# - mini-graph-card
+# - card-mod
