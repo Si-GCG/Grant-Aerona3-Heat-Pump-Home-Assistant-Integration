@@ -1,0 +1,553 @@
+modbus:
+  - name: aerona3 #give your heat pump an appropriate name like Pumpy McPumface!!
+    type: tcp
+    host: 192.168.10.102 #enter the IP address of your modbus connection
+    port: 502 #keep this the same
+    delay: 5
+
+    # Coil Registers I have given each a unique ID of the register address in the installer menu
+    switches:
+      - name: "Weather Compensation"
+        unique_id: "2100"
+        slave: 1 # Slave ID of the ASHP
+        address: 2 # Coil register address for Enable Flow Set Point
+        write_type: coil # Use coil for binary values
+        command_on: 1 # 1 = Climatic Curve (Weather Compensation)
+        command_off: 0 # 0 = Fixed Set Point
+
+      - name: “Cooling Weather Compensation”
+        unique_id: “2120”
+        slave: 1 # Slave ID of the ASHP
+        address: 5 # Coil register address to Enable Flow Set Point
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Climatic curve enabled
+        command_off: 0 #=Fixed set point
+
+      - name: “Anti-legionella Function”
+        unique_id: “3140”
+        slave: 1 # Slave ID of the ASHP
+        address: 6 # Coil register address to Enable Anti-legionella function
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “The HP unit turns ON/OFF”
+        unique_id: “4100”
+        slave: 1 # Slave ID of the ASHP
+        address: 7 # Coil register address to Enable Anti-legionella function
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Water set point
+        command_off: 0 #=Room set point 1
+
+      - name: “Frost protection on room temperature”
+        unique_id: “4300”
+        slave: 1 # Slave ID of the ASHP
+        address: 8 # Coil register address to Enable Frost protection on room temperature
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Frost protection by outdoor temperature”
+        unique_id: “4310”
+        slave: 1 # Slave ID of the ASHP
+        address: 9 # Coil register address to Enable Frost protection by outdoor temperature
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Frost protection based on Outgoing water temperature”
+        unique_id: “4320”
+        slave: 1 # Slave ID of the ASHP
+        address: 10 # Coil register address to Enable Frost protection based on Outgoing water temperature
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Water set point
+        command_off: 0 #=Room set point 1
+
+      - name: “DHW storage frost protection”
+        unique_id: “4330”
+        slave: 1 # Slave ID of the ASHP
+        address: 11 # Coil register address to Enable DHW storage frost protection
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Secondary system circuit frost protection”
+        unique_id: “4340”
+        slave: 1 # Slave ID of the ASHP
+        address: 12 # Coil register address to Enable Secondary system circuit frost protection
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Compensation for room humidity”
+        unique_id: “4410”
+        slave: 1 # Slave ID of the ASHP
+        address: 13 # Coil register address to Enable Compensation for room humidity
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Conditions to be available Backup heaters”
+        unique_id: “4610”
+        slave: 1 # Slave ID of the ASHP
+        address: 14 # Coil register address to Enable Conditions to be available Backup heaters
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Dependent on Outdoor air temperature
+        command_off: 0 #=Always Enable
+
+      - name: “Conditions to be available EHS heaters"
+        unique_id: “4710”
+        slave: 1 # Slave ID of the ASHP
+        address: 15 # Coil register address to Enable Conditions to be available EHS Backup heaters
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Dependent on Outdoor air temperature
+        command_off: 0 #=Always Enable
+
+      - name: “Terminal 1-2-3 Remote Controller”
+        unique_id: “5101”
+        slave: 1 # Slave ID of the ASHP
+        address: 16 # Coil register address to Enable Terminal 1-2-3 Remote Controller
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 4-5-6 3way mixing valve”
+        unique_id: “5104”
+        slave: 1 # Slave ID of the ASHP
+        address: 17 # Coil register address to Enable Terminal 4-5-6 3way mixing valve
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 7-8 DHW tank temperature probe”
+        unique_id: “5107”
+        slave: 1 # Slave ID of the ASHP
+        address: 18 # Coil register address to Enable Terminal 7-8 DHW tank temperature probe
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 9-10 Outdoor air temperature probe”
+        unique_id: “5109”
+        slave: 1 # Slave ID of the ASHP
+        address: 19 # Coil register address to Enable Terminal 9-10 Outdoor air temperature probe
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 11-12 Buffer tank temperature probe”
+        unique_id: “5111”
+        slave: 1 # Slave ID of the ASHP
+        address: 20 # Coil register address to Enable Terminal 11-12 Buffer tank temperature probe
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 13-14 Mix Water temperature probe”
+        unique_id: “5113”
+        slave: 1 # Slave ID of the ASHP
+        address: 21 # Coil register address to Enable Terminal 13-14 Mix Water temperature probe
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disabled
+
+      - name: “Terminal 15-16-32 RS485 Mod Bus”
+        unique_id: “5115”
+        slave: 1 # Slave ID of the ASHP
+        address: 22 # Coil register address to Enable Terminal 15-16-32 RS485 Mod Bus
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 17-18 Humidity sensor”
+        unique_id: “5117”
+        slave: 1 # Slave ID of the ASHP
+        address: 23 # Coil register address to Enable Terminal 17-18 Humidity sensor
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 19-18 DHW remote contact”
+        unique_id: “5119”
+        slave: 1 # Slave ID of the ASHP
+        address: 24 # Coil register address to Enable Terminal 19-18 DHW remote contact
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable (Remote Controller Only)
+
+      - name: “Terminal 22-23 Dual set point control”
+        unique_id: “5122”
+        slave: 1 # Slave ID of the ASHP
+        address: 25 # Coil register address to Enable Terminal 22-23 Dual set point control
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 26-27 Flow switch”
+        unique_id: “5126”
+        slave: 1 # Slave ID of the ASHP
+        address: 26 # Coil register address to Enable Terminal 26-27 Flow switch
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 28-29 Night mode”
+        unique_id: “5128”
+        slave: 1 # Slave ID of the ASHP
+        address: 27 # Coil register address to Enable Terminal 28-29 Night mode
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 30-31 Low tariff Mode”
+        unique_id: “5130”
+        slave: 1 # Slave ID of the ASHP
+        address: 28 # Coil register address to Enable Terminal 30-31 Low tariff Mode
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 41-42 EHS” # External Heat Source for space heating
+        unique_id: “5141”
+        slave: 1 # Slave ID of the ASHP
+        address: 29 # Coil register address to Enable Terminal 41-42 EHS
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 43-44 Heating/Cooling mode output”
+        unique_id: “5143”
+        slave: 1 # Slave ID of the ASHP
+        address: 30 # Coil register address to Enable Terminal 43-44 Heating/Cooling mode output
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+        # 0=disable
+        # 1 #=Indication of Cooling mode (CLOSE=Cooling)
+        # 2 #=indication of Heating mode (CLOSE=Heating)
+
+      - name: “Terminal 45 Dehumidifier”
+        unique_id: “5145”
+        slave: 1 # Slave ID of the ASHP
+        address: 31 # Coil register address to Enable Terminal 45 Dehumidifier
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Enabled
+        command_off: 0 #=Disable
+
+      - name: “Terminal 46 DHW Electric heater or Backup heater”
+        unique_id: “5146”
+        slave: 1 # Slave ID of the ASHP
+        address: 32 # Coil register address to Enable Terminal 46 DHW Electric heater or Backup heater
+        write_type: coil # Use coil for binary values
+        command_on: 1 #=Backup Heater
+        command_off: 0 #=DHW Electric Heater
+
+    sensors:
+      # Input Registers
+      - name: "Return water temperature"
+        unique_id: aeyc-0643xu-ch-input-1-0
+        slave: 1
+        address: 0
+        input_type: input
+        unit_of_measurement: °C
+        scale: 1.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Compressor Operating Frequency"
+        unique_id: aeyc-0643xu-ch-input-1-1
+        slave: 1
+        address: 1
+        input_type: input
+        scan_interval: 5
+        unit_of_measurement: Hz
+
+      - name: "Discharge temperature"
+        unique_id: aeyc-0643xu-ch-input-1-2
+        slave: 1
+        address: 2
+        input_type: input
+        unit_of_measurement: °C
+        scale: 1.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Current consumption value"
+        unique_id: aeyc-0643xu-ch-input-1-3
+        slave: 1
+        address: 3
+        input_type: input
+        unit_of_measurement: W
+        scale: 100.000000
+        state_class: measurement
+        scan_interval: 10
+        device_class: power
+
+      - name: "Fan control number of rotation"
+        unique_id: aeyc-0643xu-ch-input-1-4
+        slave: 1
+        address: 4
+        input_type: input
+        unit_of_measurement: rpm
+        scale: 10.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Defrost temperature"
+        unique_id: aeyc-0643xu-ch-input-1-5
+        slave: 1
+        address: 5
+        input_type: input
+        unit_of_measurement: °C
+        scale: 1.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Outdoor air temperature"
+        unique_id: aeyc-0643xu-ch-input-1-6
+        slave: 1
+        address: 6
+        input_type: input
+        unit_of_measurement: °C
+        scale: 1.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Water pump control number of rotation"
+        unique_id: aeyc-0643xu-ch-input-1-7
+        slave: 1
+        address: 7
+        input_type: input
+        unit_of_measurement: rpm
+        scale: 100.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Suction temperature"
+        unique_id: aeyc-0643xu-ch-input-1-8
+        slave: 1
+        address: 8
+        input_type: input
+        unit_of_measurement: °C
+        scale: 1.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Outgoing water temperature"
+        unique_id: aeyc-0643xu-ch-input-1-9
+        slave: 1
+        address: 9
+        input_type: input
+        unit_of_measurement: °C
+        scale: 1.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Selected Operating Mode"
+        unique_id: aeyc-0643xu-ch-input-1-10
+        slave: 1
+        address: 10
+        input_type: input
+        scan_interval: 9
+
+      - name: "Buffer Tank Temperature"
+        unique_id: aeyc-0643xu-ch-input-1-11
+        slave: 1
+        address: 11
+        input_type: input
+        unit_of_measurement: °C
+        scale: 0.1
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "Humidity Sensor"
+        unique_id: aeyc-0643xu-ch-input-1-12
+        slave: 1
+        address: 12
+        input_type: input
+        unit_of_measurement: "%"
+        scale: 1.000000
+        state_class: measurement
+        scan_interval: 9
+
+      - name: "DHW operating mode"
+        unique_id: aeyc-0643xu-ch-input-1-13
+        slave: 1
+        address: 13
+        input_type: input
+        scan_interval: 30
+
+      - name: "DHW Legionella Cycle day"
+        unique_id: aeyc-0643xu-ch-input-1-14
+        slave: 1
+        address: 14
+        input_type: input
+        scan_interval: 30
+
+      - name: "DHW Water Temperature"
+        unique_id: aeyc-0643xu-ch-input-1-16
+        slave: 1
+        address: 16
+        input_type: input
+        unit_of_measurement: °C
+        scale: 0.1
+        state_class: measurement
+        scan_interval: 60
+
+      - name: "Plate Heat Exchanger Temp"
+        unique_id: aeyc-0643xu-ch-input-1-32
+        slave: 1
+        address: 32
+        input_type: input
+        unit_of_measurement: °C
+        scale: 1.000000
+        state_class: measurement
+        scan_interval: 30
+
+      - name: "Indoor Master Temp Actual"
+        unique_id: aeyc-0643xu-ch-input-1-33
+        slave: 1
+        address: 33
+        input_type: input
+        unit_of_measurement: °C
+        scale: 0.100000
+        state_class: measurement
+        scan_interval: 9
+
+      # Holding Registers
+      # Fixed Flow Temperature
+      - name: "Fixed Flow Temperature"
+        unique_id: fixed_flow_temperature
+        slave: 1
+        address: 2
+        input_type: holding
+        scale: 0.1 # Adjust scaling if needed (e.g., divide by 10 to convert to °C)
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # Max Flow Temperature
+      - name: "Max Flow Temperature"
+        unique_id: max_flow_temperature
+        slave: 1
+        address: 3
+        input_type: holding
+        scale: 0.1 # Adjust scaling if needed (e.g., divide by 10 to convert to °C)
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # Min Flow Temperature
+      - name: "Min Flow Temperature"
+        unique_id: min_flow_temperature
+        slave: 1
+        address: 4
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # Min Outdoor Air Temperature
+      - name: "Min Outdoor Air Temperature"
+        unique_id: min_outdoor_air_temperature
+        slave: 1
+        address: 5
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # Max Outdoor Air Temperature
+      - name: "Max Outdoor Air Temperature"
+        unique_id: max_outdoor_air_temperature
+        slave: 1
+        address: 6
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # Hysteresis of water set point in Heating and DHW
+      - name: "Hysteresis of water set point in Heating and DHW"
+        slave: 1
+        address: 21
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # DHW Comfort set temperature
+      - name: "DHW Comfort set temperature"
+        slave: 1
+        address: 28
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # DHW Economy set temperature
+      - name: "DHW Economy set temperature"
+        slave: 1
+        address: 29
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # DHW setpoint Hysteresis
+      - name: "DHW setpoint Hysteresis"
+        slave: 1
+        address: 30
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # DHW Over boost mode set point
+      - name: "DHW Over boost mode set point"
+        slave: 1
+        address: 31
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # Anti legionella set point
+      - name: "Anti legionella set point"
+        slave: 1
+        address: 36
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "°C"
+        device_class: temperature
+        scan_interval: 11
+
+      # Max. frequency of Night mode
+      - name: "max frequency of night mode"
+        slave: 1
+        address: 37
+        input_type: holding
+        scale: 0.1
+        precision: 1
+        unit_of_measurement: "%"
+        state_class: measurement
+        scan_interval: 11

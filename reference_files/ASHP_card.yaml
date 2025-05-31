@@ -1,0 +1,881 @@
+    type: masonry
+  - title: ASHP
+    path: ashp
+    icon: mdi:heat-pump-outline
+    panel: true
+    cards:
+      - type: gauge
+        entity: sensor.current_consumption_value
+        min: 0
+        max: 5000
+        needle: true
+        severity:
+          green: 0
+          yellow: 1000
+          red: 3000
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Weather Compensation
+            secondary: |-
+              {% if is_state('switch.weather_compensation', 'on') %}
+                Active - Weather-based Flow Control
+              {% else %}
+                Inactive - Fixed Flow Temperature
+              {% endif %}
+            icon: mdi:thermometer-auto
+            icon_color: |-
+              {% if is_state('switch.weather_compensation', 'on') %}
+                green
+              {% else %}
+                blue
+              {% endif %}
+            tap_action:
+              action: more-info
+            entity: switch.weather_compensation
+          - type: custom:mushroom-template-card
+            primary: Heat Pump ΔT
+            secondary: >-
+              {% set flow = states('sensor.outgoing_water_temperature')|float(0)
+              %} {% set
+               return = states('sensor.return_water_temperature')|float(0) %} {{ (flow -
+               return) | round(1) }}°C
+            icon: mdi:delta
+            icon_color: >-
+              {% set delta =
+              states('sensor.outgoing_water_temperature')|float(0) -
+              states('sensor.return_water_temperature')|float(0) %} {% if delta
+              >= 5 %} green.   {% elif delta >= 3 %}
+               yellow
+              {% else %} red {% endif %}
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: Estimated COP
+            secondary: >-
+              {% set power = states('sensor.current_consumption_value')|float(0)
+              %}  {% set flow_temp =
+              states('sensor.outgoing_water_temperature')|float(0) %}  {%set
+              return_temp = states('sensor.return_water_temperature')|float(0)
+              %}  {%set flow_rate = 28 %}   {% set delta_t = flow_temp -
+              return_temp %}  {% if power > 100 and delta_t > 0 %}  {% set
+              heat_output = 4.2 * flow_rate * delta_t / 60 %} {% set cop =
+              heat_output / (power / 1000) %} {{ cop | round(2) }}  {% else %}
+              Not currently operating  {% endif %}
+            icon: mdi:thermometer-water
+            icon_color: >-
+              {% set power = states('sensor.current_consumption_value')|float(0)
+              %}  {% if power > 100 %} green  {% else %} gray  {% endif %}
+          - type: tile
+            features_position: bottom
+            vertical: false
+            entity: sensor.weather_compensation_target
+          - type: custom:mushroom-template-card
+            icon: |
+              {% set mode = states('sensor.dhw_operating_mode') %}
+               {% if mode == '0' %}
+               mdi:heat-pump-outline
+               {% elif mode == '1' %}
+               mdi:water-outline
+              {% elif mode == '2' %}
+              mdi:water
+              {% elif mode == '3' %}
+               mdi:water-boiler
+              {% else %}
+              mdi:help-circle
+              {% endif %}
+            layout: horizontal
+            fill_container: true
+            tap_action:
+              action: more-info
+            primary: |
+              ASHP Operating mode
+            secondary: >
+              {% set mode = states('sensor.dhw_operating_mode') %} {% if mode ==
+              '0' %}
+                Heating
+              {% elif mode == '1' %}
+                DHW Comfort
+              {% elif mode == '2' %}
+                DHW Economy
+              {% elif mode == '3' %}
+                DHW Boost
+               {% else %}
+                Unknown
+              {% endif %}
+            entity: sensor.dhw_operating_mode
+            icon_color: |2-
+                  {% set mode =     states('sensor.dhw_operating_mode') %}
+                  {% if mode == '0' %}
+                  blue
+                  {% elif mode == '1' %}
+                  orange
+                  {% elif mode == '2' %}
+                  green
+                  {% elif mode == '3' %}
+                  red
+                  {% else %}
+                  grey
+                  {% endif %}
+          - type: tile
+            primary: DHW Water Temp
+            secondary: '{{ states(''sensor.dhw_water_temperature'') }}'
+            tap_action:
+              action: more-info
+            icon: mdi:thermometer-water
+            entity: sensor.dhw_water_temperature
+            icon_color: >-
+              {% set temperature =
+              states('sensor.dhw_water_temperature')|float(0) %}  {% if
+              temperature > 45 %} green  {% else %} gray  {% endif %}
+            badge_icon: ''
+          - type: entity
+            name: Daily Usage
+            entity: sensor.daily_energy
+          - show_name: true
+            show_icon: true
+            show_state: true
+            type: glance
+            title: Current Operations
+            entities:
+              - entity: sensor.current_consumption_value
+                name: Power
+                icon: mdi:flash
+              - entity: sensor.compressor_operating_frequency
+                name: Freq.
+                icon: mdi:sine-wave
+              - entity: sensor.water_pump_control_number_of_rotation
+                name: Pump
+                icon: mdi:pump
+              - entity: sensor.fan_control_number_of_rotation
+                name: Fan
+                icon: mdi:fan
+            state_color: true
+          - type: vertical-stack
+            title: Temperature Controls
+            cards:
+              - type: markdown
+                content: '## Temperature Controls'
+                style: |
+                  ha-card {
+                    box-shadow: none;
+                    background: none;
+                    padding: 8px 0;
+                  }
+                  h2 {
+                    font-size: 18px;
+                    font-weight: 500;
+                    margin: 0;
+                  }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Fixed Flow Temperature
+                    secondary: '{{ states(''sensor.fixed_flow_temperature'') }}°C'
+                    icon: mdi:thermometer
+                    layout: horizontal
+                    fill_container: true
+                    tap_action:
+                      action: none
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:minus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.decrement
+                      data: {}
+                      target:
+                        entity_id: input_number.fixed_out_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:plus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.increment
+                      data: {}
+                      target:
+                        entity_id: input_number.fixed_out_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                          icon:
+                            - width: 24px
+                            - height: 24px
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Max Flow Temperature
+                    secondary: '{{ states(''sensor.max_flow_temperature'') }}°C'
+                    icon: mdi:thermometer-high
+                    layout: horizontal
+                    fill_container: true
+                    tap_action:
+                      action: none
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:minus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.decrement
+                      data: {}
+                      target:
+                        entity_id: input_number.max_out_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:plus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.increment
+                      data: {}
+                      target:
+                        entity_id: input_number.max_out_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                          icon:
+                            - width: 24px
+                            - height: 24px
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Min Flow Temperature
+                    secondary: '{{ states(''sensor.min_flow_temperature'') }}°C'
+                    icon: mdi:thermometer-low
+                    layout: horizontal
+                    fill_container: true
+                    tap_action:
+                      action: none
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:minus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.decrement
+                      data: {}
+                      target:
+                        entity_id: input_number.min_out_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:plus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.increment
+                      data: {}
+                      target:
+                        entity_id: input_number.min_out_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                          icon:
+                            - width: 24px
+                            - height: 24px
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Max Outdoor Temperature
+                    secondary: '{{ states(''sensor.max_outdoor_air_temperature'') }}°C'
+                    icon: mdi:weather-sunny
+                    layout: horizontal
+                    fill_container: true
+                    tap_action:
+                      action: none
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:minus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.decrement
+                      data: {}
+                      target:
+                        entity_id: input_number.max_outdoor_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:plus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.increment
+                      data: {}
+                      target:
+                        entity_id: input_number.max_outdoor_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                          icon:
+                            - width: 24px
+                            - height: 24px
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: Min Outdoor Temperature
+                    secondary: '{{ states(''sensor.min_outdoor_air_temperature'') }}°C'
+                    icon: mdi:snowflake
+                    layout: horizontal
+                    fill_container: true
+                    tap_action:
+                      action: none
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:minus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.decrement
+                      data: {}
+                      target:
+                        entity_id: input_number.min_outdoor_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                  - type: custom:button-card
+                    name: ' '
+                    icon: mdi:plus
+                    show_name: false
+                    tap_action:
+                      action: call-service
+                      service: input_number.increment
+                      data: {}
+                      target:
+                        entity_id: input_number.min_outdoor_temp
+                    styles:
+                      card:
+                        - width: 40px
+                        - height: 40px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+                          icon:
+                            - width: 24px
+                            - height: 24px
+      - type: weather-forecast
+        entity: weather.forecast_home
+        show_forecast: false
+      - type: horizontal-stack
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Temperature Monitoring
+                  show_states: true
+                graph_span: 12h
+                series:
+                  - entity: sensor.outgoing_water_temperature
+                    name: Flow
+                    color: '#ff7f0e'
+                  - entity: sensor.return_water_temperature
+                    name: Return
+                    color: '#1f77b4'
+                  - entity: sensor.outdoor_air_temperature
+                    name: Outdoor
+                    color: '#2ca02c'
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: Power Consumption
+        graph_span: 24h
+        span:
+          start: day
+        series:
+          - entity: sensor.current_consumption_value
+            name: Power Consumption
+            color: orange
+            type: column
+            group_by:
+              func: avg
+              duration: 10min
+      - type: vertical-stack
+        cards:
+          - type: button
+            name: Heat Pump Parameters
+            icon: mdi:cog-play
+            tap_action:
+              action: toggle
+              entity: input_boolean.show_heat_pump_parameters
+            state_color: true
+            entity: input_boolean.show_heat_pump_parameters
+          - type: conditional
+            conditions:
+              - entity: input_boolean.show_heat_pump_parameters
+                state: 'on'
+            card:
+              type: entities
+              title: Heat Pump Parameters
+              entities:
+                - type: section
+                  label: Warning here be DRAGONS
+                - entity: switch.weather_compensation
+                  name: Weather Compensation
+                  icon: mdi:thermometer-lines
+                - entity: switch.anti_legionella_function
+                  name: Anti-Legionella Function
+                  icon: mdi:water-alert
+                - entity: switch.the_hp_unit_turns_on_off
+                  name: Heat Pump Power Control
+                  icon: mdi:power
+                - type: section
+                  label: Frost Protection
+                - entity: switch.frost_protection_on_room_temperature
+                  name: Room Temp Protection
+                - entity: switch.frost_protection_by_outdoor_temperature
+                  name: Outdoor Temp Protection
+                - entity: switch.frost_protection_based_on_outgoing_water_temperature
+                  name: Water Temp Protection
+                - entity: switch.dhw_storage_frost_protection
+                  name: DHW Storage Protection
+                - type: section
+                  label: PCB Controls
+                - entity: switch.terminal_1_2_3_remote_controller
+                  name: 1-2-3 Remote Controller
+                - entity: switch.terminal_7_8_dhw_tank_temperature_probe
+                  name: 7-8 DHW Tank Temp Probe
+                - entity: switch.terminal_9_10_outdoor_air_temperature_probe
+                  name: 9-10 Outdoor Air Temp Probe
+                - entity: switch.terminal_11_12_buffer_tank_temperature_probe
+                  name: 11-12 Buffer Tank Temp Probe
+                - entity: switch.terminal_15_16_32_rs485_mod_bus
+                  name: 15-16-32 RS485 Modbus
+                - entity: switch.terminal_19_18_dhw_remote_contact
+                - entity: switch.terminal_28_29_night_mode
+                  name: 28-29 Night Mode
+              show_header_toggle: false
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Heat Pump Energy Consumption
+            show_header_toggle: false
+            entities:
+              - entity: sensor.daily_energy
+                name: Daily Energy Consumption
+              - entity: sensor.weekly_energy
+                name: Weekly Energy Consumption
+              - entity: sensor.monthly_energy
+                name: Monthly Energy Consumption
+          - type: entities
+            title: Heat Pump Electricity Cost
+            show_header_toggle: false
+            entities:
+              - entity: sensor.octopus_energy_cost_tracker_ashp_cost_tracker
+                name: Daily Cost
+              - entity: sensor.octopus_energy_cost_tracker_ashp_cost_tracker_week
+              - entity: sensor.octopus_energy_cost_tracker_ashp_cost_tracker_month
+      - type: vertical-stack
+        title: Hot Water Controls
+        cards:
+          - type: markdown
+            content: '## DHW Controls'
+            style: |
+              ha-card {
+                box-shadow: none;
+                background: none;
+                padding: 8px 0;
+              }
+              h2 {
+                font-size: 18px;
+                font-weight: 500;
+                margin: 0;
+              }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: DHW Current Temperature
+                secondary: '{{ states(''sensor.dhw_water_temperature'') }}°C'
+                icon: mdi:thermometer
+                layout: horizontal
+                fill_container: true
+                tap_action:
+                  action: none
+          - type: custom:mushroom-template-card
+            icon: |
+              {% set mode = states('sensor.dhw_operating_mode') %}
+              {% if mode == '0' %}
+              mdi:heat-pump-outline
+              {% elif mode == '1' %}
+              mdi:water-outline
+              {% elif mode == '2' %}
+              mdi:water
+              {% elif mode == '3' %}
+              mdi:water-boiler
+              {% else %}
+              mdi:help-circle
+              {% endif %}
+            layout: horizontal
+            fill_container: true
+            tap_action:
+              action: more-info
+            primary: |
+              ASHP Operating mode
+            secondary: |
+              {% set mode = states('sensor.dhw_operating_mode') %}
+              {% if mode == '0' %}
+              Heating
+              {% elif mode == '1' %}
+              Comfort
+              {% elif mode == '2' %}
+              Economy
+              {% elif mode == '3' %}
+              Boost
+              {% else %}
+              Unknown
+              {% endif %}
+            entity: sensor.dhw_operating_mode
+            icon_color: |
+              {% set mode = states('sensor.dhw_operating_mode') %}
+              {% if mode == '0' %}
+              blue
+              {% elif mode == '1' %}
+              orange
+              {% elif mode == '2' %}
+              green
+              {% elif mode == '3' %}
+              red
+              {% else %}
+              grey
+               {% endif %}
+               
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                name: DHW Comfort
+                icon: mdi:water
+                color: green
+                tap_action:
+                  action: call-service
+                  service: script.set_dhw_comfort_mode
+                styles: null
+                card:
+                  - height: 80px
+                  - border-radius: 10px
+              - type: custom:button-card
+                name: DHW Economy
+                icon: mdi:water-outline
+                color: blue
+                tap_action:
+                  action: call-service
+                service: script.set_dhw_economy_mode
+                styles: null
+                card:
+                  - height: 80px
+                  - border-radius: 10px
+              - type: custom:button-card
+                name: DHW Boost
+                icon: mdi:water-boiler
+                color: red
+                tap_action:
+                  action: more-info
+                entity: script.dhw_boost_timed
+                styles: null
+                card:
+                  - height: 80px
+                  - border-radius: 10px
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Legionella Cycle Day
+                secondary: >-
+                  {% set days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                  'Friday', 'Saturday', 'Sunday'] %} {{
+                  days[states('sensor.dhw_legionella_cycle_day') | int] }}
+                icon: mdi:water-boiler-auto
+                layout: horizontal
+                fill_container: true
+                tap_action:
+                  action: none
+                icon_color: Blue
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: DHW Comfort Set Temperature
+                secondary: '{{ states(''sensor.dhw_comfort_set_temperature'') }}°C'
+                icon: mdi:thermometer-low
+                layout: horizontal
+                fill_container: true
+                tap_action:
+                  action: none
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:minus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.decrement
+                  data: {}
+                  target:
+                    entity_id: input_number.dhw_comfort_set_temperature
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:plus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.increment
+                  data: {}
+                  target:
+                    entity_id: input_number.dhw_comfort_set_temperature
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: DHW Economy Set Temperature
+                secondary: '{{ states(''sensor.dhw_economy_set_temperature'') }}°C'
+                icon: mdi:weather-sunny
+                layout: horizontal
+                fill_container: true
+                tap_action:
+                  action: none
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:minus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.decrement
+                  data: {}
+                  target:
+                    entity_id: input_number.dhw_economy_set_temperature
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:plus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.increment
+                  data: {}
+                  target:
+                    entity_id: input_number.dhw_economy_set_temperature
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: DHW Overboost Set Point
+                secondary: '{{ states(''sensor.dhw_over_boost_mode_set_point'') }}°C'
+                icon: mdi:snowflake
+                layout: horizontal
+                fill_container: true
+                tap_action:
+                  action: none
+                entity: input_number.dhw_overboost_set_point
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:minus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.decrement
+                  data: {}
+                  target:
+                    entity_id: input_number.dhw_overboost_set_point
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:plus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.increment
+                  data: {}
+                  target:
+                    entity_id: input_number.dhw_overboost_set_point
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: DHW Hysteresis Setpoint
+                secondary: '{{ states(''sensor.dhw_setpoint_hysteresis'') }}°C'
+                icon: mdi:snowflake
+                layout: horizontal
+                fill_container: true
+                tap_action:
+                  action: none
+                entity: input_number.dhw_setpoint_hysterisis
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:minus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.decrement
+                  data: {}
+                  target:
+                    entity_id: input_number.dhw_setpoint_hysteresis
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:plus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.increment
+                  data: {}
+                  target:
+                    entity_id: input_number.dhw_setpoint_hysteresis
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Anti Legionella Set Point
+                secondary: '{{ states(''sensor.anti_legionella_set_point'') }}°C'
+                icon: mdi:snowflake
+                layout: horizontal
+                fill_container: true
+                tap_action:
+                  action: none
+                entity: sensor.anti_legionella_set_point
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:minus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.decrement
+                  data: {}
+                  target:
+                    entity_id: input_number.anti_legionella_set_point
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+              - type: custom:button-card
+                name: ' '
+                icon: mdi:plus
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: input_number.increment
+                  data: {}
+                  target:
+                    entity_id: input_number.anti_legionella_set_point
+                styles:
+                  card:
+                    - width: 40px
+                    - height: 40px
+                  icon:
+                    - width: 24px
+                    - height: 24px
+                      icon:
+                        - width: 24px
+                        - height: 24px
+          - type: horizontal-stack
+            cards: []
+  
