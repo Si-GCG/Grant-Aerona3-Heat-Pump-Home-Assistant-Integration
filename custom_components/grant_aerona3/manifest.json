@@ -1,0 +1,12 @@
+{
+  "domain": "grant_aerona3",
+  "name": "Grant Aerona3 Heat Pump",
+  "version": "1.0.0",
+  "documentation": "https://github.com/Si-GCG/Grant-Aerona3-modbus",
+  "issue_tracker": "https://github.com/Si-GCG/Grant-Aerona3-modbus/issues",
+  "dependencies": ["modbus"],
+  "codeowners": ["@Si-GCG"],
+  "requirements": ["pymodbus>=3.0.0"],
+  "config_flow": true,
+  "iot_class": "local_polling"
+}

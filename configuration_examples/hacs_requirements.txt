@@ -1,0 +1,53 @@
+
+# Required HACS Frontend Components for Grant Aerona3 Dashboard
+
+## Installation Instructions:
+1. Open HACS in Home Assistant
+2. Go to "Frontend" 
+3. Search for each component below
+4. Install each component
+5. Restart Home Assistant
+
+## Required Components:
+
+### Mushroom Cards
+- **Name**: Mushroom
+- **Repository**: https://github.com/piitaya/lovelace-mushroom
+- **Description**: Modern card designs used throughout the dashboard
+
+### ApexCharts Card  
+- **Name**: ApexCharts Card
+- **Repository**: https://github.com/RomRider/apexcharts-card
+- **Description**: Advanced charting for performance monitoring
+
+### Mini Graph Card
+- **Name**: Mini Graph Card  
+- **Repository**: https://github.com/kalkih/mini-graph-card
+- **Description**: Compact temperature trend graphs
+
+### Card Mod
+- **Name**: Card Mod
+- **Repository**: https://github.com/thomasloven/lovelace-card-mod
+- **Description**: Card styling and customization
+
+### Energy Flow Card Plus
+- **Name**: Energy Flow Card Plus
+- **Repository**: https://github.com/flixlix/energy-flow-card-plus
+- **Description**: Energy flow visualization
+
+## Optional Components:
+
+### Button Card
+- **Name**: Button Card
+- **Repository**: https://github.com/custom-cards/button-card
+- **Description**: Advanced button customization
+
+### Layout Card
+- **Name**: Layout Card
+- **Repository**: https://github.com/thomasloven/lovelace-layout-card
+- **Description**: Advanced layout options
+
+## Verification:
+After installation, check that all components are loaded:
+- Developer Tools → Info → Lovelace Resources
+- Verify all components are listed without errors

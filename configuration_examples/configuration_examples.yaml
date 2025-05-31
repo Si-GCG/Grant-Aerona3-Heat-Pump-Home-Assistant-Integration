@@ -1,0 +1,80 @@
+
+# Grant Aerona3 Heat Pump Configuration Examples
+# Add these to your configuration.yaml file
+
+# Helper entities for dashboard
+input_boolean:
+  show_ashp_setpoints:
+    name: Show ASHP Setpoints
+    initial: false
+    icon: mdi:tune
+
+# Energy tracking (optional)
+sensor:
+  - platform: integration
+    source: sensor.grant_aerona3_power_consumption
+    name: grant_aerona3_energy_kwh
+    unit_prefix: k
+    round: 2
+    method: trapezoidal
+
+# Utility meters for energy tracking
+utility_meter:
+  grant_aerona3_daily_energy:
+    source: sensor.grant_aerona3_energy_kwh
+    cycle: daily
+  grant_aerona3_monthly_energy:
+    source: sensor.grant_aerona3_energy_kwh
+    cycle: monthly
+  grant_aerona3_yearly_energy:
+    source: sensor.grant_aerona3_energy_kwh
+    cycle: yearly
+
+# Example automations
+automation:
+  # Frost protection
+  - alias: "ASHP Frost Protection Auto"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.grant_aerona3_outdoor_air_temperature
+        below: 0
+    action:
+      - service: switch.turn_on
+        entity_id: switch.grant_aerona3_frost_protection_outdoor
+        
+  # Low COP alert
+  - alias: "ASHP Low COP Alert"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.grant_aerona3_cop
+        below: 2.0
+        for:
+          minutes: 30
+    action:
+      - service: notify.persistent_notification
+        data:
+          message: "Heat pump COP is low ({{ states('sensor.grant_aerona3_cop') }}). Check system."
+          title: "ASHP Performance Alert"
+
+# Recorder configuration for performance
+recorder:
+  include:
+    entities:
+      - sensor.grant_aerona3_outdoor_air_temperature
+      - sensor.grant_aerona3_outgoing_water_temperature
+      - sensor.grant_aerona3_return_water_temperature
+      - sensor.grant_aerona3_power_consumption
+      - sensor.grant_aerona3_energy_consumption
+      - sensor.grant_aerona3_cop
+  exclude:
+    entities:
+      - sensor.grant_aerona3_compressor_frequency  # High frequency updates
+      - sensor.grant_aerona3_fan_speed
+      - sensor.grant_aerona3_water_pump_speed
+
+# Logger configuration for debugging
+logger:
+  default: info
+  logs:
+    custom_components.grant_aerona3: debug
+    pymodbus: info
