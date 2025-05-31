@@ -1,6 +1,6 @@
 
 # This is currently in beta
-# Grant Aerona3 Heat Pump Home Assistant Integration
+# Unofficial Grant Aerona3 Heat Pump Home Assistant Integration
 
 A comprehensive Home Assistant custom integration for controlling and monitoring Grant Aerona3 Air Source Heat Pumps via Modbus communication.
 
