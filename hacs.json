@@ -1,0 +1,5 @@
+{
+  "name": "Grant Aerona3 Heat Pump",
+  "render_readme": true,
+  "domains": ["climate", "sensor", "switch", "binary_sensor"]
+}
