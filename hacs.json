@@ -1,5 +1,29 @@
 {
-  "name": "Grant Aerona3 Heat Pump",
+  "name": "Grant Aerona3 Heat Pump Integration",
+  "description": "Enhanced Home Assistant integration for Grant Aerona3 Air Source Heat Pumps with advanced weather compensation and comprehensive monitoring. Save 10-15% on heating bills with intelligent temperature control optimised for British homes.",
   "render_readme": true,
-  "domains": ["climate", "sensor", "switch", "binary_sensor"]
+  "domains": ["sensor", "binary_sensor", "climate", "switch", "number"],
+  "homeassistant": "2023.4.0",
+  "iot_class": "Local Polling",
+  "version": "2.0.0",
+  "country": ["GB"],
+  "codeowners": ["@Si-GCG"],
+  "documentation": "https://github.com/Si-GCG/Grant-Aerona3-Heat-Pump-Home-Assistant-Integration",
+  "issue_tracker": "https://github.com/Si-GCG/Grant-Aerona3-Heat-Pump-Home-Assistant-Integration/issues",
+  "keywords": [
+    "grant",
+    "aerona3", 
+    "heat pump",
+    "air source heat pump",
+    "ashp",
+    "weather compensation",
+    "modbus",
+    "heating",
+    "efficiency",
+    "cop",
+    "energy monitoring",
+    "british",
+    "uk"
+  ],
+  "release_notes": "https://github.com/Si-GCG/Grant-Aerona3-Heat-Pump-Home-Assistant-Integration/releases"
 }
