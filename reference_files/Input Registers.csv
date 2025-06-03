@@ -14,7 +14,7 @@
 12,Input ,U,01,12,Room air set temperature of Zone2(Slave),25,12,40,0.5°C,250,Set by Slave Remote controller
 13,Input ,U,01,13,"Selected DHW operating mode (0=disable, 1=Comfort, 2=Economy, 3=Force)",0,0,3,-,0,Set by Remote controller
 14,Input ,U,01,14,"Day (0=Monday, 1=Tuesday, 2=Wednesday, 3=Thursday, 4=Friday, 5=Saturday, 6=Sunday)",0,0,6,-,0,
-15,Input ,U,01,15,Clock,12:00,00:00,23:59,1min,0,
+15,Input ,U,01,15,Legionella Cycle Set Time,12:00,00:00,23:59,1min,0,
 16,Input ,I,01,31,DHW tank temperature (Terminal 7-8),-,-20,100,0.5°C,470,
 17,Input ,I,01,32,Outdoor air temperature (Terminal 9-10),-,-20,100,0.5°C,65336,
 18,Input ,I,01,33,Buffer tank temperature (Terminal 11-12),-,-20,100,0.5°C,65336,
