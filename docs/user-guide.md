@@ -373,17 +373,7 @@ Your integration tracks patterns that indicate when maintenance is needed:
 
 ---
 
-## 💬 **Community Tips**
 
-### From Real Users
-
-> **"Set my hot water to 48°C instead of 55°C - COP improved from 2.8 to 3.2 with no noticeable difference in shower temperature."** - *Somerset user*
-
-> **"Weather compensation saved me £15/month immediately. Best feature of the whole system!"** - *Lancashire user*
-
-> **"Lower flow temperatures in bedrooms to 40°C - kids sleep better and bills are lower."** - *Yorkshire family*
-
-> **"Use boost mode only for guests. Regular daily patterns work much better for efficiency."** - *Devon user*
 
 ---
 
