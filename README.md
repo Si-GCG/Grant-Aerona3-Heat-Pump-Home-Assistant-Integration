@@ -127,9 +127,9 @@ You'll need a way to connect Home Assistant to your Grant Aerona3's Modbus inter
 - **Default IP**: 192.168.1.200
 - **Port**: 502
 - **Wiring to Grant Aerona3**:
-  - RS485+ (orange wire) → Pin 5
-  - RS485- (orange/white wire) → Pin 4
-  - GND → Pin 8
+  - RS485+ (orange wire) → terminal 15
+  - RS485- (orange/white wire) → terminal 16
+  - GND → terminal 32
 
 #### Alternative: USB to RS485 Converter
 - Connect via USB to your Home Assistant device
@@ -141,7 +141,7 @@ You'll need a way to connect Home Assistant to your Grant Aerona3's Modbus inter
 - **Parity**: None
 - **Stop Bits**: 2
 - **Slave Address**: 1 (default)
-- **Enable Modbus**: Must be enabled in service menu
+- **Enable Modbus**: Must be enabled in service menu parameter 51-15 set to 1, or coil register 15 
 
 ---
 
