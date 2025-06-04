@@ -418,80 +418,20 @@ Max Outdoor: 16°C → Min Flow: 35°C
 
 ---
 
-## 💡 **Pro Tips from Real Users**
-
-### Money-Saving Secrets
-
-> **"Dropped my min flow temperature from 40°C to 35°C - saved £30/month with no comfort loss. Heat pump just runs longer at higher efficiency."** - *Yorkshire user*
-
-> **"Set different curves for weekday/weekend. Cooler during work hours, perfect comfort when home. Weather compensation makes this automatic."** - *London user*
-
-> **"Use boost mode for guests, but return to normal curves immediately after. One weekend of comfort, months of savings."** - *Somerset user*
-
-### Technical Insights
-
-> **"Monitor your COP daily for first month - you'll learn exactly how weather compensation improves efficiency. Mine went from 2.8 to 3.4 average."** - *Devon engineer*
-
-> **"Outdoor sensor placement matters hugely. Moved mine away from south-facing wall - weather compensation became much more accurate."** - *Scotland user*
-
-> **"Large radiators + weather compensation = magic. Upgraded radiators in main rooms, now run 5°C cooler flow temps with better comfort."** - *Wales user*
-
-### Seasonal Wisdom
-
-> **"Winter: comfort first, efficiency second. Spring: tune for efficiency. Summer: hot water only. Autumn: prep for winter. Weather compensation works year-round."** - *Heating engineer*
-
-> **"Don't panic if COP drops in very cold weather - weather compensation is still saving money compared to fixed temperatures."** - *Manchester user*
-
----
-
 ## 📚 **Further Learning**
 
 ### Technical Resources
 - **[Heat Pump Monitoring](https://heatpumpmonitor.org/)** - Independent monitoring data
 - **[OpenEnergyMonitor](https://openenergymonitor.org/)** - Technical monitoring tools
-- **[MCS Standards](https://mcscertified.com/)** - Professional installation standards
+- **{Renewableheatinghub}(https://renewableheatinghub.co.uk/)** - Great Forums
 
 ### Community Knowledge
-- **[Heat Pump UK Facebook Group](https://www.facebook.com/groups/HeatPumpUK)** - 15,000+ members sharing experiences
+- **[Unofficial Grant Aerona Air Source Heat Pump technical supportFacebook Group](https://www.facebook.com/groups/1013322056552695/)** - 15,000+ members sharing experiences
 - **[BuildHub Forum](https://www.buildhub.org.uk/)** - Technical discussions and case studies
 - **[Energy Saving Trust](https://energysavingtrust.org.uk/)** - Official efficiency guidance
 
 ---
 
-## 🏆 **Weather Compensation Success Story**
 
-### Real Example: Yorkshire Family Home
-- **House**: 1970s detached, cavity wall insulation, double glazing
-- **Heat pump**: Grant Aerona3 8kW
-- **Heating system**: Mix of radiators and underfloor heating
-- **Previous heating**: Old gas boiler
-
-#### **Before Weather Compensation**
-- **Fixed flow temperature**: 45°C year-round
-- **Annual heating cost**: £1,350
-- **Average COP**: 2.6
-- **Comfort**: Good but occasional overheating in mild weather
-
-#### **After Weather Compensation**
-- **Variable flow temperature**: 30-47°C based on outdoor conditions
-- **Annual heating cost**: £1,100 (18% saving!)
-- **Average COP**: 3.2 (+23% efficiency improvement)
-- **Comfort**: Excellent with perfect automatic adjustment
-
-#### **Key Success Factors**
-1. **Proper setup** using UFH/radiator mixed system settings
-2. **Patient optimisation** over first winter
-3. **Regular monitoring** and minor adjustments
-4. **Understanding the system** rather than constant tweaking
-
-#### **Lessons Learned**
-- **Bigger savings** than expected (18% vs 10-15% typical)
-- **Better comfort** - no more overheating in spring/autumn
-- **Set and forget** - minimal intervention needed after first season
-- **Worth the effort** - £250/year saving pays for annual service and more!
-
----
-
-**Weather compensation is genuinely brilliant technology that will save you money every single day. Set it up properly once, and it'll work automatically for years! 💰🏠**
 
 *Remember: Start conservative, monitor performance, and adjust gradually. Your heat pump wants to be efficient - weather compensation just lets it show off! 🇬🇧*
