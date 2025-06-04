@@ -221,16 +221,6 @@ Created with love for the British heat pump community. Special thanks to:
 
 ---
 
-## 📈 **What Users Say**
-
-> "Saved me £200 on my first year's heating bills through better weather compensation. The efficiency monitoring is brilliant!" - *Yorkshire user*
-
-> "Finally understand what my heat pump is actually doing. The setup was dead easy and the dashboards are gorgeous." - *Cornwall user*
-
-> "As a heating engineer, I'm impressed by the professional-grade monitoring. My customers love seeing their COP in real-time." - *Devon installer*
-
----
-
 **Ready to make your Grant Aerona3 smarter? Let's get started! 🚀**
 
 *This integration is lovingly crafted in Britain, tested in British weather, and optimised for British homes. Because your heat pump deserves the best! 🇬🇧*
