@@ -35,9 +35,9 @@ This is the easiest method - plug and play!
 2. **Remove the front panel** of your Grant Aerona3 controller
 3. **Locate the Modbus terminals** (usually at the bottom, labelled)
 4. **Connect the wires**:
-   - **Orange wire** → Pin 5 (RS485+)
-   - **Orange/White wire** → Pin 4 (RS485-)
-   - **Blue wire** → Pin 8 (GND)
+   - **Orange wire** → Pin 15 (RS485+)
+   - **Orange/White wire** → Pin 16 (RS485-)
+   - **Blue wire** → Pin 32 (GND)
 5. **Connect ethernet cable** from converter to your router
 6. **Power up** the converter and heat pump
 
