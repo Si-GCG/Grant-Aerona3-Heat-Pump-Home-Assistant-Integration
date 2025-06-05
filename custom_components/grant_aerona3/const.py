@@ -78,14 +78,14 @@ INPUT_REGISTERS = "input"
 HOLDING_REGISTERS = "holding"
 COIL_REGISTERS = "coil"
 
-# Input Registers (Read-only monitoring data)
+# INPUT REGISTERS - Fixed scaling for temperatures
 INPUT_REGISTER_MAP = {
     0: {
         "name": "Return Water Temperature",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1,
+        "scale": 0.1,  # ✅ Fixed: was 1, now 0.1
         "offset": 0,
         "description": "Return water temperature"
     },
@@ -94,7 +94,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfFrequency.HERTZ,
         "device_class": SensorDeviceClass.FREQUENCY,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1,
+        "scale": 1,  # ✅ Correct: frequencies don't need scaling
         "offset": 0,
         "description": "Compressor operating frequency"
     },
@@ -103,7 +103,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1,
+        "scale": 0.1,  # ✅ Fixed: was 1, now 0.1
         "offset": 0,
         "description": "Discharge temperature"
     },
@@ -112,7 +112,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfPower.WATT,
         "device_class": SensorDeviceClass.CURRENT,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 100,
+        "scale": 100,  # ✅ Correct: power often needs scaling
         "offset": 0,
         "description": "Current consumption value"
     },
@@ -121,7 +121,7 @@ INPUT_REGISTER_MAP = {
         "unit": "rpm",
         "device_class": None,
         "state_class": None,
-        "scale": 10,
+        "scale": 10,  # ✅ Correct: RPM scaling
         "offset": 0,
         "description": "Fan control number of rotation"
     },
@@ -130,7 +130,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1,
+        "scale": 0.1,  # ✅ Fixed: was 1, now 0.1
         "offset": 0,
         "description": "Defrost temperature"
     },
@@ -139,7 +139,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1,
+        "scale": 0.1,  # ✅ Fixed: was 1, now 0.1
         "offset": 0,
         "description": "Outdoor air temperature"
     },
@@ -148,7 +148,7 @@ INPUT_REGISTER_MAP = {
         "unit": "rpm",
         "device_class": None,
         "state_class": None,
-        "scale": 100,
+        "scale": 100,  # ✅ Correct: pump RPM scaling
         "offset": 0,
         "description": "Water pump control number of rotation"
     },
@@ -157,7 +157,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1,
+        "scale": 0.1,  # ✅ Fixed: was 1, now 0.1
         "offset": 0,
         "description": "Suction temperature"
     },
@@ -166,7 +166,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1,
+        "scale": 0.1,  # ✅ Fixed: was 1, now 0.1
         "offset": 0,
         "description": "Outgoing water temperature"
     },
@@ -175,7 +175,7 @@ INPUT_REGISTER_MAP = {
         "unit": None,
         "device_class": None,
         "state_class": None,
-        "scale": 1,
+        "scale": 1,  # ✅ Correct: mode values don't need scaling
         "offset": 0,
         "description": "Selected operating mode (0=Heating/Cooling OFF, 1=Heating, 2=Cooling)"
     },
@@ -184,7 +184,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 0.5,
+        "scale": 0.1,  # ✅ Fixed: was 0.5, should be 0.1
         "offset": 0,
         "description": "Room air set temperature of Zone1(Master)"
     },
@@ -193,43 +193,16 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 0.5,
+        "scale": 0.1,  # ✅ Fixed: was 0.5, should be 0.1
         "offset": 0,
         "description": "Room air set temperature of Zone2(Slave)"
-    },
-    13: {
-        "name": "Selected DHW Operating Mode",
-        "unit": None,
-        "device_class": None,
-        "state_class": None,
-        "scale": 1,
-        "offset": 0,
-        "description": "Selected DHW operating mode (0=disable, 1=Comfort, 2=Economy, 3=Force)"
-    },
-    14: {
-        "name": "Day",
-        "unit": None,
-        "device_class": None,
-        "state_class": None,
-        "scale": 1,
-        "offset": 0,
-        "description": "Day (0=Monday, 1=Tuesday, 2=Wednesday, 3=Thursday, 4=Friday, 5=Saturday, 6=Sunday"
-    },
-    15: {
-        "name": "Legionella Cycle Set Time",
-        "unit": None,
-        "device_class": SensorDeviceClass.DURATION,
-        "state_class": None,
-        "scale": 1,
-        "offset": 0,
-        "description": "Legionella Cycle Set Time"
     },
     16: {
         "name": "DHW Tank Temperature",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 0.5,
+        "scale": 0.1,  # ✅ Fixed: was 0.5, should be 0.1
         "offset": 0,
         "description": "DHW tank temperature (Terminal 7-8)"
     },
@@ -238,7 +211,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 0.5,
+        "scale": 0.1,  # ✅ Fixed: was 0.5, should be 0.1
         "offset": 0,
         "description": "Outdoor air temperature (Terminal 9-10)"
     },
@@ -247,7 +220,7 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 0.5,
+        "scale": 0.1,  # ✅ Fixed: was 0.5, should be 0.1
         "offset": 0,
         "description": "Buffer tank temperature (Terminal 11-12)"
     },
@@ -256,25 +229,16 @@ INPUT_REGISTER_MAP = {
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 0.5,
+        "scale": 0.1,  # ✅ Fixed: was 0.5, should be 0.1
         "offset": 0,
         "description": "Mix water temperature (Terminal 13-14)"
-    },
-    20: {
-        "name": "Humidity Sensor",
-        "unit": None,
-        "device_class": None,
-        "state_class": None,
-        "scale": 1,
-        "offset": 0,
-        "description": "Humidity sensor (Terminal 17-18)"
     },
     32: {
         "name": "Plate Heat Exchanger Temperature",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
         "state_class": SensorStateClass.MEASUREMENT,
-        "scale": 1,
+        "scale": 0.1,  # ✅ Fixed: was 1, should be 0.1
         "offset": 0,
         "description": "Plate heat exchanger temperature"
     },
@@ -286,7 +250,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Fixed Flow Temp Zone 1",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Heating Zone1, Fixed Outgoing water set point in Heating"
@@ -295,7 +259,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max Flow Temp Zone1",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outgoing water temperature in Heating mode (Tm1) Zone1"
@@ -304,7 +268,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Min Flow Temp Zone1",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Min. Outgoing water temperature in Heating mode (Tm2) Zone1"
@@ -313,7 +277,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Min. Outdoor Air Temperature Zone1",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Min. Outdoor air temperature corresponding to max. Outgoing water temperature (Te1) Zone1"
@@ -322,7 +286,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max. Outdoor Air Temperature Zone1",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outdoor air temperature corresponding to max. Outgoing water temperature (Te2) Zone1"
@@ -331,7 +295,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Fixed Flow Temp Zone 2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Heating Zone2, Fixed Outgoing water set point in Heating"
@@ -340,7 +304,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max Flow Temp Zone2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outgoing water temperature in Heating mode (Tm1) Zone2"
@@ -349,7 +313,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Min Flow Temp Zone2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Min. Outgoing water temperature in Heating mode (Tm2) Zone2"
@@ -358,7 +322,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Min. Outdoor Air Temperature Zone2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Min. Outdoor air temperature corresponding to max. Outgoing water temperature (Te1) Zone2"
@@ -367,7 +331,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max. Outdoor Air Temperature Zone2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outdoor air temperature corresponding to max. Outgoing water temperature (Te2) Zone2"
@@ -376,7 +340,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Cooling Fixed Flow Temp Zone 1",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Cooling Zone1, Fixed Outgoing water set point in Cooling"
@@ -385,7 +349,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max. Flow Temperature In Cooling Mode",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outgoing water temperature in Cooling mode (Tm1) Zone1"
@@ -394,7 +358,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Min. Flow Water Temperature In Cooling Mode",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Min. Outgoing water temperature in Cooling mode (Tm2) Zone1"
@@ -403,7 +367,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Min. Outdoor Air Temperature Cooling Zone1",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Min. Outdoor air temperature corresponding to max. Outgoing water temperature Cooling (Te1) Zone1"
@@ -412,7 +376,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max. Outdoor Air Temperature Corresponding To M... 3",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outdoor air temperature corresponding to max. Outgoing water temperature Cooling (Te2) Zone1"
@@ -421,7 +385,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Cooling Fixed Flow Temp Zone2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Cooling Zone2, Fixed Outgoing water set point in Cooling"
@@ -430,7 +394,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max Flow Temperature In Cooling Mode 2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outgoing water temperature in Cooling mode (Tm1) Zone2"
@@ -439,7 +403,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Min Flow Temperature In Cooling Mode 2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Min. Outgoing water temperature in Cooling mode (Tm2) Zone2"
@@ -448,7 +412,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Min Outdoor Air Temperature Cooling Zone2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Min. Outdoor air temperature corresponding to max. Outgoing water temperature (Te1) Zone2"
@@ -457,7 +421,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max. Outdoor Air Temperature Cooling Zone2",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outdoor air temperature corresponding to max. Outgoing water temperature (Te2) Zone2"
@@ -466,7 +430,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Hysteresis Of Water Set Point In Heating And DHW",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Hysteresis of water set point in Heating and DHW"
@@ -475,7 +439,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Hysteresis Of Water Set Point In Cooling",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Hysteresis of water set point in Cooling"
@@ -484,7 +448,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Low Tariff Deferential Water Set Point For Heating",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Low tariff deferential water set point for Heating"
@@ -493,7 +457,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Low Tariff Deferential Water Set Point For Cooling",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Low tariff deferential water set point for Cooling"
@@ -520,7 +484,7 @@ HOLDING_REGISTER_MAP = {
         "name": "DHW Comfort Set Temperature",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "DHW Comfort set temperature"
@@ -529,7 +493,7 @@ HOLDING_REGISTER_MAP = {
         "name": "DHW Economy Set Temperature",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "DHW Economy set temperature"
@@ -538,7 +502,7 @@ HOLDING_REGISTER_MAP = {
         "name": "DHW Set Point Hysteresis",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "DHW set point hysteresis"
@@ -547,7 +511,7 @@ HOLDING_REGISTER_MAP = {
         "name": "DHW Over Boost Mode Set Point",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "DHW Over boost mode set point"
@@ -574,7 +538,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature To Enable DHW Heaters",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature to enable DHW heaters"
@@ -583,7 +547,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature Hysteresis To Disable DHW Heaters",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature hysteresis to disable DHW heaters"
@@ -592,7 +556,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Anti-legionella Set Point",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Anti-legionella set point"
@@ -718,7 +682,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Start Temperature Of Frost Protection On Room Air Temp",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Start temperature of Frost protection on Room air temperature"
@@ -727,7 +691,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Hysteresis Of Room Air Temperature Of Frost Protection",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Hysteresis of Room air temperature of Frost protection"
@@ -736,7 +700,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Water Temperature Of Frost Protection",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Water temperature of Frost protection"
@@ -754,7 +718,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Start Temperature Of Frost Protection On Outdoor Air Temp",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Start temperature of Frost protection on Outdoor air temperature"
@@ -763,7 +727,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Hysteresis Of Outdoor Air Temperature",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Hysteresis of Outdoor air temperature"
@@ -772,7 +736,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Backup Heater Set Point During Frost Protection",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Backup heater set point during Frost protection"
@@ -781,7 +745,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Hysteresis Of Outgoing Water Temperature",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Hysteresis of Outgoing water temperature"
@@ -790,7 +754,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Start Temperature Of Frost Protection On DHW Tank Temp",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Start temperature of Frost protection on DHW tank temperature"
@@ -799,7 +763,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Hysteresis Of DHW Tank Temperature",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Hysteresis of DHW tank temperature"
@@ -826,7 +790,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Max Flow Temp Hysteresis relative to Humidity",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Max. Outgoing temperature hysteresis corresponding to 100% relative humidity"
@@ -916,7 +880,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Manual Water Set Point",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Manual water set point"
@@ -925,7 +889,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Manual Water Temperature Hysteresis",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Manual water temperature hysteresis"
@@ -961,7 +925,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature To Enable Backup Heater",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature to enable Backup heaters and disable compressor"
@@ -970,7 +934,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature Hysteresis To Disable Backup Heaters and Enable Compressor",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature hysteresis to disable Backup heaters and enable compressor"
@@ -979,7 +943,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature To Enable Backup Heaters",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature to enable Backup heaters (Supplementary mode)"
@@ -988,7 +952,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature Hysteresis To Disable Backup Heaters (Supplementary Mode)",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature hysteresis to disable Backup heaters (Supplementary mode)"
@@ -1006,7 +970,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outgoing Water Temperature Set Point During Start-up",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outgoing water temperature set point during Start-up"
@@ -1015,7 +979,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Hysteresis Water Temperature Set Point During Start-up",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Hysteresis water temperature set point during Start-up"
@@ -1033,7 +997,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature To Enable EHS And Disable Compressor",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature to enable EHS and disable compressor"
@@ -1042,7 +1006,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature Hysteresis To Disable Enable Compressor",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature hysteresis to disable EHS and enable compressor"
@@ -1051,7 +1015,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature To Enable EHS",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature to enable EHS (Supplementary mode)"
@@ -1060,7 +1024,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Outdoor Air Temperature Hysteresis To Disable EHS",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": SensorDeviceClass.TEMPERATURE,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Outdoor air temperature hysteresis to disable EHS (Supplementary mode)"
@@ -1141,7 +1105,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Buffer Tank Set Point For Heating",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Buffer tank set point for Heating"
@@ -1150,7 +1114,7 @@ HOLDING_REGISTER_MAP = {
         "name": "Buffer Tank Set Point For Cooling",
         "unit": UnitOfTemperature.CELSIUS,
         "device_class": None,
-        "scale": 0.5,
+        "scale": 0.1,
         "offset": 0,
         "writable": True,
         "description": "Buffer tank set point for Cooling"
