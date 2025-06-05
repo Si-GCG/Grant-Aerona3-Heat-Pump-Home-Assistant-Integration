@@ -7,18 +7,76 @@ from homeassistant.const import (
     UnitOfFrequency,
     PERCENTAGE,
 )
-
 # Domain
 DOMAIN = "grant_aerona3"
+# Device information
+MANUFACTURER = "Grant"
+MODEL = "Aerona3"
 
-# Configuration constants
-CONF_SCAN_INTERVAL = "scan_interval"
+# Operating modes
+OPERATING_MODES = {
+    0: "Off",
+    1: "Heating",
+    2: "Cooling", 
+    3: "DHW",
+    4: "Auto"
+}
+
+# DHW (Domestic Hot Water) modes
+DHW_MODES = {
+    0: "Off",
+    1: "Comfort",
+    2: "Economy",
+    3: "Boost"
+}
+
+# Days of the week
+DAYS_OF_WEEK = {
+    0: "Monday",
+    1: "Tuesday", 
+    2: "Wednesday",
+    3: "Thursday",
+    4: "Friday",
+    5: "Saturday",
+    6: "Sunday"
+}
+
+# Climate modes mapping
+CLIMATE_MODES = {
+    "off": 0,
+    "heat": 1,
+    "cool": 2,
+    "auto": 4
+}
+
+# Error codes mapping
+ERROR_CODES = {
+    0: "No Error",
+    1: "High Pressure",
+    2: "Low Pressure", 
+    3: "Compressor Overload",
+    4: "Fan Motor Error",
+    5: "Water Flow Error",
+    6: "Temperature Sensor Error",
+    7: "Communication Error"
+}
+
+
+# Configuration keys
+CONF_HOST = "host"
+CONF_PORT = "port"
 CONF_SLAVE_ID = "slave_id"
+CONF_SCAN_INTERVAL = "scan_interval"
 
 # Default values
 DEFAULT_PORT = 502
-DEFAULT_SCAN_INTERVAL = 30
 DEFAULT_SLAVE_ID = 1
+DEFAULT_SCAN_INTERVAL = 30
+
+# Register types
+INPUT_REGISTERS = "input"
+HOLDING_REGISTERS = "holding"
+COIL_REGISTERS = "coil"
 
 # Input Registers (Read-only monitoring data)
 INPUT_REGISTER_MAP = {
