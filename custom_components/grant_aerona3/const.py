@@ -747,8 +747,8 @@ HOLDING_REGISTER_MAP = {
         "description": "Time ON water pump2 for Unlock pump function"
     },
     49: {
-        "name": "\"Type of operation of additional water pump (0=disable",
-        "unit": "4=ON/OFF based on Room air temperature)"",
+        "name": "Additional Water Pump Operation Type",
+        "unit": None,
         "device_class": None,
         "scale": 1,
         "offset": 0,
