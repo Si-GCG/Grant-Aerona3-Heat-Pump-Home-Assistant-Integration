@@ -1090,7 +1090,7 @@ HOLDING_REGISTER_MAP = {
         "scale": 1,
         "offset": 0,
         "writable": True,
-        "description": "Terminal 20-21 : ON/OFF remote contact or EHS Alarm input (0=disable (Remote con"
+        "description": "Terminal 20-21 : ON/OFF remote contact or EHS Alarm input (0=disable (Remote controller only), 1=ON/OFF remote contact, 2=EHS Alarm input)"
     },
     92: {
         "name": "Terminal 24-25 : Heating/cooling Mode Remote Contact",
@@ -1165,22 +1165,22 @@ COIL_REGISTER_MAP = {
         "description": "Operation at the time of reboot after blackout 0 = disable 1 = enable"
     },
     2: {
-        "name": "Heating Flow Temp Zone 1",
+        "name": "Heating Weather Compensation Zone 1",
         "device_class": None,
         "description": "Heating Zone1, enable Outgoing water set point (0=Fixed set point, 1=Climatic curve)"
     },
     3: {
-        "name": "Heating Flow Temp Zone 2",
+        "name": "Heating Weather Compensation Zone 2",
         "device_class": None,
         "description": "Heating Zone2, enable Outgoing water set point (0=Fixed set point, 1=Climatic curve"
     },
     4: {
-        "name": "Cooling Zone 1",
+        "name": "Cooling Weather Compensation Zone 1",
         "device_class": None,
         "description": "Cooling Zone1, enable Outgoing water set point (0=Fixed set point, 1=Climatic curve"
     },
     5: {
-        "name": "Cooling Zone 2",
+        "name": "Cooling Weather Compensation Zone 2",
         "device_class": None,
         "description": "Cooling Zone2, enable Outgoing water set point (0=Fixed set point, 1=Climatic Curve"
     },
