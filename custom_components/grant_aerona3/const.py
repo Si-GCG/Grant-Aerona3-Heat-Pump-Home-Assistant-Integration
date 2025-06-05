@@ -1323,9 +1323,9 @@ INSTALLATION_TEMPLATES = {
         "description": "Most common setup with one heating zone",
         "percentage": "65%",
         "enabled_registers": {
-            "input": list(range(0, 33)),
-            "holding": list(range(0, 100)),
-            "coil": list(range(1, 34))
+            "input": list(range(0, 21)) + [32], 
+            "holding": list(range(2, 97)) + [99, 100], 
+            "coil": list(range(1, 33))
         }
     },
     "dual_zone": {
@@ -1333,9 +1333,9 @@ INSTALLATION_TEMPLATES = {
         "description": "Upstairs/downstairs or separate zones",
         "percentage": "20%",
         "enabled_registers": {
-            "input": list(range(0, 33)),
-            "holding": list(range(2, 100)),
-            "coil": list(range(0, 34))
+            "input": list(range(0, 21)) + [32], 
+            "holding": list(range(2, 97)) + [99, 100], 
+            "coil": list(range(1, 33))
         }
     },
     "dhw_only": {
@@ -1363,9 +1363,9 @@ INSTALLATION_TEMPLATES = {
         "description": "Advanced users - all registers",
         "percentage": "2%",
         "enabled_registers": {
-            "input": list(range(0, 33)),
-            "holding": list(range(2, 100)),
-            "coil": list(range(1, 34))
+            "input": list(range(0, 21)) + [32], 
+            "holding": list(range(2, 97)) + [99, 100], 
+            "coil": list(range(1, 33))
         }
     }
 }
