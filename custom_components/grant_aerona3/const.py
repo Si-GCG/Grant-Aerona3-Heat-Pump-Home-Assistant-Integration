@@ -1325,7 +1325,7 @@ INSTALLATION_TEMPLATES = {
         "enabled_registers": {
             "input": list(range(0, 33)),
             "holding": list(range(0, 100)),
-            "coil": [1, 2, 6]
+            "coil": list(range(1, 34))
         }
     },
     "dual_zone": {
