@@ -1,3 +1,4 @@
+# This repo is no longer being developed please haed over to my othe repo the Unofficial Aerona3 integration. 
 # Grant Aerona3 Heat Pump - Home Assistant Integration
 
 > **Enhanced integration for Grant Aerona3 Air Source Heat Pumps with advanced weather compensation and comprehensive monitoring**
