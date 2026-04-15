@@ -30,5 +30,6 @@
 28,Input ,I,01,57?,?Error code seven times before,32381,,,,32993,
 29,Input ,I,01,58?,?Error code eight times before,32381,,,,32993,
 30,Input ,I,01,59?,?Error code nine times before,32381,,,,32993,
-31,Input ,I,01,60?,?Error code ten times before,32381,,,,32993,
-32,Input ,U,01,72,Plate heat exchanger temperature,-,-20,100,1°C,20,monitor display No.d4
+31,Input ,U,1,72,Plate heat exchanger temperature,-,-20,100,1°C,20,monitor display No.d4
+32,Input ,,,,Remote Room Temperature,-,0,40,0.5°C,250,
+33,Input ,,,,Slave Room Temperature,-,0,40,0.5°C,250,
